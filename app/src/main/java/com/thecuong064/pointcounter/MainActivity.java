@@ -71,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
         resetAll = findViewById(R.id.btn_reset_points);
     }
 
-
     private void initViewOnClick() {
 
         homeInc3.setOnClickListener(new OnClickListener() {
@@ -226,7 +225,6 @@ public class MainActivity extends AppCompatActivity {
         
         updatePoints();
     }
-
 
     private void updatePoints() {
 
