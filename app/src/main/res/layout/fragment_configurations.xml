@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#ffffff"
-            android:hint="Game time (mins)"
+            android:hint="Game time (minutes)"
             android:maxLines="1"
             android:inputType="number"/>
 
@@ -41,7 +41,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#ffffff"
-            android:hint="Long shot clock time"
+            android:hint="Offense time (second)"
             android:maxLines="1"
             android:inputType="number"/>
 
@@ -60,7 +60,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#ffffff"
-            android:hint="Short shot clock time"
+            android:hint="Offensive rebounding time (second)"
             android:maxLines="1"
             android:inputType="number"/>
 

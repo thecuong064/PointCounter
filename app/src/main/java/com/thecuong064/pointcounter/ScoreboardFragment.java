@@ -361,7 +361,6 @@ public class ScoreboardFragment extends BaseFragment {
         }
     }
 
-
     public void pauseAllTimers() {
         pauseTotalTimer();
         pauseShotClock();

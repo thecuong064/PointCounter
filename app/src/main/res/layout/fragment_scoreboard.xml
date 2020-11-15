@@ -35,9 +35,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:gravity="center"
                 android:text="0"
                 android:textColor="#fff"
-                android:textSize="80sp" />
+                android:maxLines="1"
+                android:textSize="80sp"
+                android:autoSizeTextType="uniform" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -161,9 +164,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:gravity="center"
                 android:text="0"
                 android:textColor="#fff"
-                android:textSize="80sp" />
+                android:maxLines="1"
+                android:textSize="80sp"
+                android:autoSizeTextType="uniform" />
 
             <LinearLayout
                 android:layout_width="match_parent"

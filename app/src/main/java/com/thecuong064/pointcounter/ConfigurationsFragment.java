@@ -1,9 +1,13 @@
 package com.thecuong064.pointcounter;
 
+import android.content.DialogInterface;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.thecuong064.pointcounter.base.BaseFragment;
@@ -30,7 +34,37 @@ public class ConfigurationsFragment extends BaseFragment {
     }
 
     private void initViewOnClick() {
-        saveButton.setOnClickListener(v -> saveConfigurations());
+        saveButton.setOnClickListener(v -> showConfirmationDialog());
+    }
+
+    private void showConfirmationDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+        String message = "Wanna save and reset the current scoreboard?";
+        builder.setMessage(message)
+                .setTitle("Warning");
+
+        // Add the buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                saveConfigurations();
+                changeToScoreboardTab();
+            }
+        });
+
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void changeToScoreboardTab() {
+        if (getActivity() instanceof MainActivity) {
+            ((MainActivity) getActivity()).changeTab(MainActivity.SCOREBOARD_TAB_INDEX);
+        }
     }
 
     private void saveConfigurations() {
@@ -127,9 +161,10 @@ public class ConfigurationsFragment extends BaseFragment {
         });
     }
 
-    private void initData() {
+    public void initData() {
         totalTimeEditText.setText(MainActivity.totalTimeInMinute + "");
         shortShotClockTimeEditText.setText(MainActivity.shortShotClockTimeInSecond + "");
         longShotClockTimeEditText.setText(MainActivity.longShotClockTimeInSecond + "");
     }
+
 }

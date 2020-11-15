@@ -114,7 +114,7 @@ public class MainActivity extends BaseActivity {
         changeTab(SCOREBOARD_TAB_INDEX);
     }
 
-    private void changeTab(int pos) {
+    public void changeTab(int pos) {
         if (mCurTabPos == pos) {
             return;
         }
@@ -124,6 +124,10 @@ public class MainActivity extends BaseActivity {
         }
         mTabs[mCurTabPos].setSelected(true);
         viewPager.setCurrentItem(mCurTabPos, false);
+
+        if (mCurTabPos == CONFIGURATIONS_TAB_INDEX) {
+            configurationsFragment.initData();
+        }
     }
 
     @Override
