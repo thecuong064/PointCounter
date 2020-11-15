@@ -1,333 +1,134 @@
 package com.thecuong064.pointcounter;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.DialogInterface;
-import android.os.Bundle;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.util.SparseArray;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
-    private final String HOME_NAME = "HOME_NAME";
-    private final String GUEST_NAME = "GUEST_NAME";
+import com.thecuong064.pointcounter.base.BaseActivity;
 
-    Button homeInc3, homeInc2, homeInc1,
-        homeDec3, homeDec2, homeDec1,
-        guestInc3, guestInc2, guestInc1,
-        guestDec3, guestDec2, guestDec1;
+import java.lang.ref.WeakReference;
 
-    Button resetAll;
+import butterknife.BindView;
+import butterknife.BindViews;
 
-    TextView homeName, guestName;
-    TextView homePointHundred, homePointTen, homePointUnit;
-    TextView guestPointHundred, guestPointTen, guestPointUnit;
+public class MainActivity extends BaseActivity {
 
-    long homePointValue, guestPointValue;
+    @BindViews({R.id.tab_scoreboard, R.id.tab_configurations})
+    public View[] mTabs;
+    @BindView(R.id.viewPager)
+    public ViewPager viewPager;
+
+    // ------------- CONFIGURATIONS ------------------
+    public static String TOTAl_TIME_SAVE_KEY = "total_time";
+    public static String SHORT_SHOT_CLOCK_TIME_SAVE_KEY = "short_shot_clock_time";
+    public static String LONG_SHOT_CLOCK_TIME_SAVE_KEY = "long_shot_clock_time";
+
+    public static final long DEFAULT_TOTAL_TIME = 12;
+    public static final long DEFAULT_SHORT_SHOT_CLOCK_TIME = 14;
+    public static final long DEFAULT_LONG_SHOT_CLOCK_TIME = 24;
+
+    public static long totalTimeInMinute;
+    public static long shortShotClockTimeInSecond;
+    public static long longShotClockTimeInSecond;
+
+    public static final int SCOREBOARD_TAB_INDEX = 0;
+    public static final int CONFIGURATIONS_TAB_INDEX = 1;
+
+    private int mCurTabPos = -1;
+    private ScoreboardFragment scoreboardFragment;
+    private ConfigurationsFragment configurationsFragment;
+    private SparseArray<WeakReference<Fragment>> fragmentList;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        homePointValue = 0;
-        guestPointValue = 0;
-
-        initView();
-
-        initViewOnClick();
+    protected int getContentViewId() {
+        return R.layout.activity_main;
     }
 
-    private void initView() {
-        homeInc3 = findViewById(R.id.btn_home_inc_3);
-        homeInc2 = findViewById(R.id.btn_home_inc_2);
-        homeInc1 = findViewById(R.id.btn_home_inc_1);
-        homeDec3 = findViewById(R.id.btn_home_dec_3);
-        homeDec2 = findViewById(R.id.btn_home_dec_2);
-        homeDec1 = findViewById(R.id.btn_home_dec_1);
-        guestInc3 = findViewById(R.id.btn_guest_inc_3);
-        guestInc2 = findViewById(R.id.btn_guest_inc_2);
-        guestInc1 = findViewById(R.id.btn_guest_inc_1);
-        guestDec3 = findViewById(R.id.btn_guest_dec_3);
-        guestDec2 = findViewById(R.id.btn_guest_dec_2);
-        guestDec1 = findViewById(R.id.btn_guest_dec_1);
+    @Override
+    protected void afterCreate() {
+        super.afterCreate();
 
-        homeName = findViewById(R.id.tv_home_team_name);
-        guestName = findViewById(R.id.tv_guest_team_name);
-
-        homePointHundred = findViewById(R.id.tv_home_point_hundred_row);
-        homePointTen = findViewById(R.id.tv_home_point_ten_row);
-        homePointUnit = findViewById(R.id.tv_home_point_unit_row);
-
-        guestPointHundred = findViewById(R.id.tv_guest_point_hundred_row);
-        guestPointTen = findViewById(R.id.tv_guest_point_ten_row);
-        guestPointUnit = findViewById(R.id.tv_guest_point_unit_row);
-
-        resetAll = findViewById(R.id.btn_reset_points);
+        setTitleBarVisible(false);
+        initBottomTab();
+        getConfigurations();
     }
 
-    private void initViewOnClick() {
-
-        homeInc3.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pointButtonOnClick(v);
-            }
-        });
-
-        homeInc2.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pointButtonOnClick(v);
-            }
-        });
-
-        homeInc1.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pointButtonOnClick(v);
-            }
-        });
-
-        homeDec3.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pointButtonOnClick(v);
-            }
-        });
-
-        homeDec2.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pointButtonOnClick(v);
-            }
-        });
-
-        homeDec1.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pointButtonOnClick(v);
-            }
-        });
-
-        guestInc3.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pointButtonOnClick(v);
-            }
-        });
-
-        guestInc2.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pointButtonOnClick(v);
-            }
-        });
-
-        guestInc1.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pointButtonOnClick(v);
-            }
-        });
-
-        guestDec3.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pointButtonOnClick(v);
-            }
-        });
-
-        guestDec2.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pointButtonOnClick(v);
-            }
-        });
-
-        guestDec1.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pointButtonOnClick(v);
-            }
-        });
-
-        homeName.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openDialogEditTeamName(HOME_NAME);
-            }
-        });
-
-        guestName.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openDialogEditTeamName(GUEST_NAME);
-            }
-        });
-
-        resetAll.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                resetPoints();
-            }
-        });
+    public void setConfiguration(long newValue, String save_key) {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putLong(save_key, newValue);
+        editor.apply();
+        getConfigurations();
+        scoreboardFragment.initTimersView();
     }
 
-    private void pointButtonOnClick(View v) {
+    public void getConfigurations() {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+        totalTimeInMinute = pref.getLong(TOTAl_TIME_SAVE_KEY, DEFAULT_TOTAL_TIME);
+        shortShotClockTimeInSecond = pref.getLong(SHORT_SHOT_CLOCK_TIME_SAVE_KEY,
+                DEFAULT_SHORT_SHOT_CLOCK_TIME);
+        longShotClockTimeInSecond = pref.getLong(LONG_SHOT_CLOCK_TIME_SAVE_KEY,
+                DEFAULT_LONG_SHOT_CLOCK_TIME);
+    }
 
-        switch (v.getId()) {
-            case R.id.btn_home_inc_3:
-                homePointValue += 3;
-                break;
-            case R.id.btn_home_inc_2:
-                homePointValue += 2;
-                break;
-            case R.id.btn_home_inc_1:
-                homePointValue += 1;
-                break;
-            case R.id.btn_home_dec_3:
-                homePointValue -= 3;
-                break;
-            case R.id.btn_home_dec_2:
-                homePointValue -= 2;
-                break;
-            case R.id.btn_home_dec_1:
-                homePointValue -= 1;
-                break;
-            case R.id.btn_guest_inc_3:
-                guestPointValue += 3;
-                break;
-            case R.id.btn_guest_inc_2:
-                guestPointValue += 2;
-                break;
-            case R.id.btn_guest_inc_1:
-                guestPointValue += 1;
-                break;
-            case R.id.btn_guest_dec_3:
-                guestPointValue -= 3;
-                break;
-            case R.id.btn_guest_dec_2:
-                guestPointValue -= 2;
-                break;
-            case R.id.btn_guest_dec_1:
-                guestPointValue -= 1;
-                break;
+    private void initBottomTab() {
+        fragmentList = new SparseArray<>();
+        scoreboardFragment = new ScoreboardFragment();
+        configurationsFragment = new ConfigurationsFragment();
+        fragmentList.put(SCOREBOARD_TAB_INDEX, new WeakReference<>(scoreboardFragment));
+        fragmentList.put(CONFIGURATIONS_TAB_INDEX, new WeakReference<>(configurationsFragment));
+
+        viewPager.setAdapter(new MainAdapter(getSupportFragmentManager(),
+                FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, fragmentList));
+
+        viewPager.setOffscreenPageLimit(2);
+        for (int i = 0; i < 2; i++) {
+            final int index = i;
+            mTabs[i].setOnClickListener(v -> {
+                changeTab(index);
+            });
         }
 
-        if (homePointValue < 0) homePointValue = 0;
-        if (guestPointValue < 0) guestPointValue = 0;
-        
-        updatePoints();
-    }
-
-    private void updatePoints() {
-
-        // --------------------HOME--------------
-        long homePoint = homePointValue;
-
-        if (homePoint < 10) {
-            homePointHundred.setVisibility(View.GONE);
-            homePointTen.setVisibility(View.GONE);
-            homePointUnit.setText(homePoint + "");
-        } else if (homePoint < 100) {
-            homePointHundred.setVisibility(View.GONE);
-            homePointTen.setVisibility(View.VISIBLE);
-
-            homePointTen.setText(homePoint/10 + "");
-            homePoint = homePoint - (homePoint/10)*10;
-            homePointUnit.setText(homePoint + "");
-        } else {
-            homePointHundred.setVisibility(View.VISIBLE);
-            homePointTen.setVisibility(View.VISIBLE);
-            homePointHundred.setText(homePoint/100 + "");
-            homePoint = homePoint - (homePoint/100)*100;
-
-            if (homePoint < 10) {
-                homePointTen.setText("0");
-                homePointUnit.setText(homePoint + "");
-            } else {
-                homePointTen.setText(homePoint/10 + "");
-                homePoint = homePoint - (homePoint/10)*10;
-                homePointUnit.setText(homePoint + "");
-            }
-        }
-
-        // --------------------GUEST--------------
-        long guestPoint = guestPointValue;
-
-        if (guestPoint < 10) {
-            guestPointHundred.setVisibility(View.GONE);
-            guestPointTen.setVisibility(View.GONE);
-            guestPointUnit.setText(guestPoint + "");
-        } else if (guestPoint < 100) {
-            guestPointHundred.setVisibility(View.GONE);
-            guestPointTen.setVisibility(View.VISIBLE);
-
-            guestPointTen.setText(guestPoint/10 + "");
-            guestPoint = guestPoint - (guestPoint/10)*10;
-            guestPointUnit.setText(guestPoint + "");
-        } else {
-            guestPointHundred.setVisibility(View.VISIBLE);
-            guestPointTen.setVisibility(View.VISIBLE);
-            guestPointHundred.setText(guestPoint/100 + "");
-            guestPoint = guestPoint - (guestPoint/100)*100;
-
-            if (guestPoint < 10) {
-                guestPointTen.setText("0");
-                guestPointUnit.setText(guestPoint + "");
-            } else {
-                guestPointTen.setText(guestPoint/10 + "");
-                guestPoint = guestPoint - (guestPoint/10)*10;
-                guestPointUnit.setText(guestPoint + "");
-            }
-        }
-
-    }
-
-    private void openDialogEditTeamName(final String team) {
-        // create an alert builder
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Team name");
-        // set the custom layout
-        final View customLayout = getLayoutInflater().inflate(R.layout.input_dialog, null);
-        builder.setView(customLayout);
-        // add a button
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // send data from the AlertDialog to the Activity
-                EditText editText = customLayout.findViewById(R.id.editText);
-                changeTeamName(team, editText.getText().toString());
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                changeTab(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
             }
         });
-        // create and show the alert dialog
-        AlertDialog dialog = builder.create();
-        dialog.show();
+
+        changeTab(SCOREBOARD_TAB_INDEX);
     }
 
-    private void changeTeamName(String team, String newName) {
-        if (newName.isEmpty()) return;
-        if (team.equals(HOME_NAME)) {
-            homeName.setText(newName.toUpperCase());
-        } else {
-            guestName.setText(newName.toUpperCase());
+    private void changeTab(int pos) {
+        if (mCurTabPos == pos) {
+            return;
         }
+        mCurTabPos = pos;
+        for (View tab : mTabs) {
+            tab.setSelected(false);
+        }
+        mTabs[mCurTabPos].setSelected(true);
+        viewPager.setCurrentItem(mCurTabPos, false);
     }
 
-    private void resetPoints() {
-        homePointValue = 0;
-        guestPointValue = 0;
-        homePointHundred.setVisibility(View.GONE);
-        homePointTen.setVisibility(View.GONE);
-        guestPointHundred.setVisibility(View.GONE);
-        guestPointTen.setVisibility(View.GONE);
-        homePointUnit.setText("0");
-        guestPointUnit.setText("0");
+    @Override
+    protected void onPause() {
+        scoreboardFragment.pauseAllTimers();
+        super.onPause();
     }
 }

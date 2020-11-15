@@ -1,14 +1,13 @@
 package com.thecuong064.pointcounter;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.DialogInterface;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
+
+import com.thecuong064.pointcounter.base.BaseFragment;
 import com.thecuong064.pointcounter.listener.DoubleClickListener;
 import com.thecuong064.pointcounter.listener.TimerListener;
 import com.thecuong064.pointcounter.timer.MyCountDownTimer;
@@ -17,9 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
-public class TimerScoreboardActivity extends AppCompatActivity {
+public class ScoreboardFragment extends BaseFragment {
 
     @BindView(R.id.tv_home_name) TextView homeNameTextView;
     @BindView(R.id.tv_away_name) TextView awayNameTextView;
@@ -59,9 +57,6 @@ public class TimerScoreboardActivity extends AppCompatActivity {
     private final String PLAY_STATE = "PLAY";
     private final String PAUSE_STATE = "PAUSE";
     private String SHOT_CLOCK_STATE = PAUSE_STATE;
-    private long totalTimeInMinute = 12;
-    private long shortShotClockTimeInSecond = 14;
-    private long longShotClockTimeInSecond = 24;
 
     List<View> homeFoulsViews = new ArrayList<>();
     List<View> awayFoulsViews = new ArrayList<>();
@@ -69,16 +64,16 @@ public class TimerScoreboardActivity extends AppCompatActivity {
     long homePointValue, awayPointValue;
     long homeFoulCount, awayFoulCount;
     long totalMillis, shotClockMillis;
-    long shotClockTimeInSecond = longShotClockTimeInSecond;
 
     MyCountDownTimer totalCountDownTimer, shotClockCountDownTimer;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_timer_scoreboard);
-        ButterKnife.bind(this);
+    protected int getContentViewId() {
+        return R.layout.fragment_scoreboard;
+    }
 
+    @Override
+    protected void initViewsAndEvents(View rootView) {
         homePointValue = 0;
         awayPointValue = 0;
         homeFoulCount = 0;
@@ -90,9 +85,11 @@ public class TimerScoreboardActivity extends AppCompatActivity {
         initViewOnClick();
     }
 
-    private void initTimersView() {
+    public void initTimersView() {
+        shortShotClockButton.setText(MainActivity.shortShotClockTimeInSecond + "");
+        longShotClockButton.setText(MainActivity.longShotClockTimeInSecond + "");
         initTotalTimer();
-        initShotClockTimer(longShotClockTimeInSecond);
+        initShotClockTimer(MainActivity.longShotClockTimeInSecond);
         playPauseButton.setText(PLAY_STATE);
     }
 
@@ -116,7 +113,7 @@ public class TimerScoreboardActivity extends AppCompatActivity {
                 shotClockTimeTextView.setText("0.0");
                 pauseTotalTimer();
                 shotClockCountDownTimer.stop();
-                initShotClockTimer(longShotClockTimeInSecond);
+                initShotClockTimer(MainActivity.longShotClockTimeInSecond);
             }
         });
     }
@@ -125,7 +122,7 @@ public class TimerScoreboardActivity extends AppCompatActivity {
         if (totalCountDownTimer != null) {
             totalCountDownTimer.stop();
         }
-        totalMillis = totalTimeInMinute * 60 * 1000;
+        totalMillis = MainActivity.totalTimeInMinute * 60 * 1000;
         totalTimeTextView.setText(getTotalTimeStringFromMillis(totalMillis));
         totalCountDownTimer = new MyCountDownTimer(totalMillis);
         totalCountDownTimer.setOnTickListener(new TimerListener() {
@@ -215,8 +212,8 @@ public class TimerScoreboardActivity extends AppCompatActivity {
 
         stopButton.setOnClickListener(v -> stopTimer());
 
-        shortShotClockButton.setOnClickListener(v -> resetShotClock(shortShotClockTimeInSecond));
-        longShotClockButton.setOnClickListener(v -> resetShotClock(longShotClockTimeInSecond));
+        shortShotClockButton.setOnClickListener(v -> resetShotClock(MainActivity.shortShotClockTimeInSecond));
+        longShotClockButton.setOnClickListener(v -> resetShotClock(MainActivity.longShotClockTimeInSecond));
     }
 
     private void resetShotClock(long timeInSeconds) {
@@ -304,7 +301,7 @@ public class TimerScoreboardActivity extends AppCompatActivity {
 
     private void openDialogEditTeamName(final String team) {
         // create an alert builder
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Team name");
         // set the custom layout
         final View customLayout = getLayoutInflater().inflate(R.layout.input_dialog, null);
@@ -365,14 +362,9 @@ public class TimerScoreboardActivity extends AppCompatActivity {
     }
 
 
-    private void pauseAllTimers() {
+    public void pauseAllTimers() {
         pauseTotalTimer();
         pauseShotClock();
     }
 
-    @Override
-    protected void onPause() {
-        pauseAllTimers();
-        super.onPause();
-    }
 }
