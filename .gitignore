@@ -67,3 +67,6 @@ fastlane/readme.md.gradle
 
 local.properties
 /.idea
+/app/signing.properties
+/app/point-counter-keystore.jks
+/keystore/
