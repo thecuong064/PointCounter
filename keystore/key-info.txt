@@ -1,4 +1,0 @@
-Keystore info
-
-Alias: pointcounter
-password: 21091998
