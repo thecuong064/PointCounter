@@ -24,17 +24,20 @@ public class MainActivity extends BaseActivity {
     public ViewPager viewPager;
 
     // ------------- CONFIGURATIONS ------------------
-    public static String TOTAl_TIME_SAVE_KEY = "total_time";
-    public static String SHORT_SHOT_CLOCK_TIME_SAVE_KEY = "short_shot_clock_time";
-    public static String LONG_SHOT_CLOCK_TIME_SAVE_KEY = "long_shot_clock_time";
+    public static String TOTAl_TIME_MINUTE_SAVE_KEY = "total_time_minute";
+    public static String TOTAl_TIME_SECOND_SAVE_KEY = "total_time_second";
+    public static String OFFENSE_TIME_SAVE_KEY = "offense_time";
+    public static String AFTER_REBOUNDING_TIME_SAVE_KEY = "after_rebounding_time";
 
-    public static final long DEFAULT_TOTAL_TIME = 12;
-    public static final long DEFAULT_SHORT_SHOT_CLOCK_TIME = 14;
-    public static final long DEFAULT_LONG_SHOT_CLOCK_TIME = 24;
+    public static final int DEFAULT_TOTAL_TIME_MIN = 12 * 60 * 1000;
+    public static final int DEFAULT_TOTAL_TIME_SEC = 0;
+    public static final int DEFAULT_SHORT_SHOT_CLOCK_TIME = 14 * 1000;
+    public static final int DEFAULT_LONG_SHOT_CLOCK_TIME = 24 * 1000;
 
-    public static long totalTimeInMinute;
-    public static long shortShotClockTimeInSecond;
-    public static long longShotClockTimeInSecond;
+    public static int totalTimeMinute;
+    public static int totalTimeSecond;
+    public static int afterReboundingTimeInSecond;
+    public static int offenseTimeInSecond;
 
     public static final int SCOREBOARD_TAB_INDEX = 0;
     public static final int CONFIGURATIONS_TAB_INDEX = 1;
@@ -69,11 +72,12 @@ public class MainActivity extends BaseActivity {
 
     public void getConfigurations() {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
-        totalTimeInMinute = pref.getLong(TOTAl_TIME_SAVE_KEY, DEFAULT_TOTAL_TIME);
-        shortShotClockTimeInSecond = pref.getLong(SHORT_SHOT_CLOCK_TIME_SAVE_KEY,
-                DEFAULT_SHORT_SHOT_CLOCK_TIME);
-        longShotClockTimeInSecond = pref.getLong(LONG_SHOT_CLOCK_TIME_SAVE_KEY,
-                DEFAULT_LONG_SHOT_CLOCK_TIME);
+        totalTimeMinute = minuteFromMillis(pref.getLong(TOTAl_TIME_MINUTE_SAVE_KEY, DEFAULT_TOTAL_TIME_MIN));
+        totalTimeSecond = secondFromMillis(pref.getLong(TOTAl_TIME_SECOND_SAVE_KEY, DEFAULT_TOTAL_TIME_SEC));
+        afterReboundingTimeInSecond = secondFromMillis(pref.getLong(AFTER_REBOUNDING_TIME_SAVE_KEY,
+                DEFAULT_SHORT_SHOT_CLOCK_TIME));
+        offenseTimeInSecond = secondFromMillis(pref.getLong(OFFENSE_TIME_SAVE_KEY,
+                DEFAULT_LONG_SHOT_CLOCK_TIME));
     }
 
     private void initBottomTab() {
@@ -128,6 +132,22 @@ public class MainActivity extends BaseActivity {
         if (mCurTabPos == CONFIGURATIONS_TAB_INDEX) {
             configurationsFragment.initData();
         }
+    }
+
+    public static int minuteFromMillis(long timeInMillis) {
+        return (int)(timeInMillis / 1000 / 60);
+    }
+
+    public static int secondFromMillis(long timeInMillis) {
+        return (int)(timeInMillis / 1000);
+    }
+
+    public static long millisFromMinute(int timeInMinute) {
+        return (long)timeInMinute * 1000 * 60;
+    }
+
+    public static long millisFromSecond(int timeInSeconds) {
+        return (long)timeInSeconds * 1000;
     }
 
     @Override

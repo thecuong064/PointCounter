@@ -1,70 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:padding="10dp"
+    android:paddingTop="20dp"
     android:focusableInTouchMode="true"
     android:focusable="true"
     android:clickable="true">
 
-    <com.google.android.material.textfield.TextInputLayout
+    <com.thecuong064.pointcounter.widget.ConfigurationItemView
+        android:id="@+id/item_total_time"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:layout_marginTop="20dp"
-        android:textColorHint="#ffffff"
-        android:background="@drawable/cor_20_solid_120f2c">
+        android:layout_height="55dp"
+        app:itemTitle="Total time"
+        app:itemLineShow="true"/>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_total_time"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#ffffff"
-            android:hint="Game time (minutes)"
-            android:maxLines="1"
-            android:inputType="number"/>
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
+    <com.thecuong064.pointcounter.widget.ConfigurationItemView
+        android:id="@+id/item_offense_time"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:layout_marginTop="20dp"
-        android:textColorHint="#ffffff"
-        android:background="@drawable/cor_20_solid_120f2c">
+        android:layout_height="55dp"
+        app:itemTitle="Offense time"
+        app:itemLineShow="true"/>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_long_shot_clock_time"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#ffffff"
-            android:hint="Offense time (second)"
-            android:maxLines="1"
-            android:inputType="number"/>
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
+    <com.thecuong064.pointcounter.widget.ConfigurationItemView
+        android:id="@+id/item_after_rebounding_time"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:layout_marginTop="20dp"
-        android:textColorHint="#ffffff"
-        android:background="@drawable/cor_20_solid_120f2c">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_short_shot_clock_time"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#ffffff"
-            android:hint="Offensive rebounding time (second)"
-            android:maxLines="1"
-            android:inputType="number"/>
-
-    </com.google.android.material.textfield.TextInputLayout>
+        android:layout_height="55dp"
+        app:itemTitle="After-offensive-rebounding time"
+        app:itemLineShow="true"/>
 
     <TextView
         android:id="@+id/btn_save"
@@ -73,8 +37,8 @@
         android:paddingHorizontal="10dp"
         android:paddingVertical="5dp"
         android:layout_marginTop="20dp"
-        android:layout_gravity="center"
-        android:background="@drawable/cor_20_solid_332dce80"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/btn_bg_332dce80_round_border"
         android:gravity="center"
         android:text="Save"
         android:textColor="#FFFFFF"

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="ConfigurationItemView">
+        <attr name="itemTitleIcon" format="reference" />
+        <attr name="itemTitle" format="string" />
+        <attr name="itemContent" format="string" />
+        <attr name="itemLineShow" format="boolean" />
+        <attr name="itemTitleTextColor" format="color" />
+    </declare-styleable>
+
+</resources>

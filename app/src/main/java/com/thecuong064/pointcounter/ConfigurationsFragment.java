@@ -1,25 +1,30 @@
 package com.thecuong064.pointcounter;
 
 import android.content.DialogInterface;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 
-import com.google.android.material.textfield.TextInputEditText;
 import com.thecuong064.pointcounter.base.BaseFragment;
+import com.thecuong064.pointcounter.widget.ConfigurationItemView;
+import com.thecuong064.pointcounter.widget.CustomNumberPicker;
 
 import butterknife.BindView;
 
 public class ConfigurationsFragment extends BaseFragment {
 
-    @BindView(R.id.et_total_time) TextInputEditText totalTimeEditText;
-    @BindView(R.id.et_short_shot_clock_time) TextInputEditText shortShotClockTimeEditText;
-    @BindView(R.id.et_long_shot_clock_time) TextInputEditText longShotClockTimeEditText;
+    @BindView(R.id.item_total_time) ConfigurationItemView totalTimeItem;
+    @BindView(R.id.item_offense_time) ConfigurationItemView offenseTimeItem;
+    @BindView(R.id.item_after_rebounding_time) ConfigurationItemView afterReboundingTimeItem;
     @BindView(R.id.btn_save) TextView saveButton;
+
+    private int totalTimeMinute;
+    private int totalTimeSecond;
+    private int afterReboundingTimeInSecond;
+    private int offenseTimeInSecond;
 
     @Override
     protected int getContentViewId() {
@@ -29,12 +34,111 @@ public class ConfigurationsFragment extends BaseFragment {
     @Override
     protected void initViewsAndEvents(View rootView) {
         initViewOnClick();
-        initTextWatcher();
         initData();
     }
 
     private void initViewOnClick() {
+        totalTimeItem.setOnClickListener(v ->
+                showMinuteAndSecondPickerDialog("Total time", 60, 0, totalTimeMinute,
+                        59, 0, totalTimeSecond)
+        );
+
+        offenseTimeItem.setOnClickListener(v ->
+                showSecondPickerDialog(MainActivity.OFFENSE_TIME_SAVE_KEY,
+                        "Offense time", 59, 1, offenseTimeInSecond)
+        );
+
+        afterReboundingTimeItem.setOnClickListener(v ->
+                showSecondPickerDialog(MainActivity.AFTER_REBOUNDING_TIME_SAVE_KEY,
+                        "After-offensive-rebounding time", 59, 1, afterReboundingTimeInSecond)
+        );
+
         saveButton.setOnClickListener(v -> showConfirmationDialog());
+    }
+
+    private void showMinuteAndSecondPickerDialog(String title,
+                                                 int minuteMax, int minuteMin, int currentMin,
+                                                 int secondMax, int secondMin, int currentSec) {
+        // create an alert builder
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle(title);
+
+        // set the custom layout
+        View customLayout = getLayoutInflater().inflate(R.layout.dialog_minute_second_picker, null);
+        builder.setView(customLayout);
+
+        CustomNumberPicker minutePicker = customLayout.findViewById(R.id.picker_minute);
+        minutePicker.setMaxValue(minuteMax);
+        minutePicker.setMinValue(minuteMin);
+        minutePicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        minutePicker.setFormatter(i -> String.format("%02d", i));
+        minutePicker.setValue(currentMin);
+
+        CustomNumberPicker secondPicker = customLayout.findViewById(R.id.picker_second);
+        secondPicker.setMaxValue(secondMax);
+        secondPicker.setMinValue(secondMin);
+        secondPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        secondPicker.setFormatter(i -> String.format("%02d", i));
+        secondPicker.setValue(currentSec);
+
+        AlertDialog dialog = builder.create();
+
+        TextView cancelBtn = customLayout.findViewById(R.id.btn_left);
+        cancelBtn.setOnClickListener(v -> dialog.dismiss());
+
+        TextView acceptBtn = customLayout.findViewById(R.id.btn_right);
+        acceptBtn.setOnClickListener(v -> {
+            if (minutePicker.getValue() != 0 || secondPicker.getValue() != 0) {
+                totalTimeMinute = minutePicker.getValue();
+                totalTimeSecond = secondPicker.getValue();
+                showData();
+                dialog.dismiss();
+            } else {
+                Toast.makeText(getContext(), "Invalid time", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        dialog.show();
+    }
+
+    private void showSecondPickerDialog(String type, String title,
+                                        int maxValue, int minValue, int currentValue) {
+        // create an alert builder
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle(title);
+
+        // set the custom layout
+        View customLayout = getLayoutInflater().inflate(R.layout.dialog_second_picker, null);
+        builder.setView(customLayout);
+
+        CustomNumberPicker secondPicker = customLayout.findViewById(R.id.picker_second);
+        secondPicker.setMaxValue(maxValue);
+        secondPicker.setMinValue(minValue);
+        secondPicker.setValue(currentValue);
+        secondPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        secondPicker.setFormatter(i -> String.format("%02d", i));
+
+        AlertDialog dialog = builder.create();
+
+        TextView cancelBtn = customLayout.findViewById(R.id.btn_left);
+        cancelBtn.setOnClickListener(v -> dialog.dismiss());
+
+        TextView acceptBtn = customLayout.findViewById(R.id.btn_right);
+        acceptBtn.setOnClickListener(v -> {
+            if (secondPicker.getValue() != 0) {
+                if (type == MainActivity.OFFENSE_TIME_SAVE_KEY) {
+                    offenseTimeInSecond = secondPicker.getValue();
+                } else {
+                    afterReboundingTimeInSecond = secondPicker.getValue();
+                }
+                showData();
+                dialog.dismiss();
+            } else {
+                Toast.makeText(getContext(), "Invalid time", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        dialog.show();
     }
 
     private void showConfirmationDialog() {
@@ -69,102 +173,33 @@ public class ConfigurationsFragment extends BaseFragment {
 
     private void saveConfigurations() {
         if (getActivity() instanceof MainActivity) {
-            long totalTime = Long.valueOf(totalTimeEditText.getText().toString());
-            long shortTime = Long.valueOf(shortShotClockTimeEditText.getText().toString());
-            long longTime = Long.valueOf(longShotClockTimeEditText.getText().toString());
-            ((MainActivity) getActivity()).setConfiguration(totalTime, MainActivity.TOTAl_TIME_SAVE_KEY);
-            ((MainActivity) getActivity()).setConfiguration(shortTime, MainActivity.SHORT_SHOT_CLOCK_TIME_SAVE_KEY);
-            ((MainActivity) getActivity()).setConfiguration(longTime, MainActivity.LONG_SHOT_CLOCK_TIME_SAVE_KEY);
+
+            ((MainActivity) getActivity()).setConfiguration(MainActivity.millisFromMinute(totalTimeMinute),
+                    MainActivity.TOTAl_TIME_MINUTE_SAVE_KEY);
+
+            ((MainActivity) getActivity()).setConfiguration(MainActivity.millisFromSecond(totalTimeSecond),
+                    MainActivity.TOTAl_TIME_SECOND_SAVE_KEY);
+
+            ((MainActivity) getActivity()).setConfiguration(MainActivity.millisFromSecond(offenseTimeInSecond),
+                    MainActivity.OFFENSE_TIME_SAVE_KEY);
+
+            ((MainActivity) getActivity()).setConfiguration(MainActivity.millisFromSecond(afterReboundingTimeInSecond),
+                    MainActivity.AFTER_REBOUNDING_TIME_SAVE_KEY);
         }
     }
 
-    private void initTextWatcher() {
-        totalTimeEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (s != null && s.length() > 0) {
-                    long cur = Long.parseLong(s.toString());
-                    if (cur > MainActivity.DEFAULT_TOTAL_TIME) {
-                        totalTimeEditText.setText(String.valueOf(MainActivity.DEFAULT_TOTAL_TIME));
-                        return;
-                    }
-                    if (cur < 1) {
-                        totalTimeEditText.setText(String.valueOf(1));
-                        return;
-                    }
-                }
-            }
-        });
-
-        shortShotClockTimeEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (s != null && s.length() > 0) {
-                    long cur = Long.parseLong(s.toString());
-                    if (cur > MainActivity.DEFAULT_SHORT_SHOT_CLOCK_TIME) {
-                        shortShotClockTimeEditText.setText(String.valueOf(MainActivity.DEFAULT_SHORT_SHOT_CLOCK_TIME));
-                        return;
-                    }
-                    if (cur < 1) {
-                        shortShotClockTimeEditText.setText(String.valueOf(1));
-                        return;
-                    }
-                }
-            }
-        });
-
-        longShotClockTimeEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (s != null && s.length() > 0) {
-                    long cur = Long.parseLong(s.toString());
-                    if (cur > MainActivity.DEFAULT_LONG_SHOT_CLOCK_TIME) {
-                        longShotClockTimeEditText.setText(String.valueOf(MainActivity.DEFAULT_LONG_SHOT_CLOCK_TIME));
-                        return;
-                    }
-                    if (cur < 1) {
-                        longShotClockTimeEditText.setText(String.valueOf(1));
-                        return;
-                    }
-                }
-            }
-        });
+    public void initData() {
+        totalTimeMinute = MainActivity.totalTimeMinute;
+        totalTimeSecond = MainActivity.totalTimeSecond;
+        offenseTimeInSecond = MainActivity.offenseTimeInSecond;
+        afterReboundingTimeInSecond = MainActivity.afterReboundingTimeInSecond;
+        showData();
     }
 
-    public void initData() {
-        totalTimeEditText.setText(MainActivity.totalTimeInMinute + "");
-        shortShotClockTimeEditText.setText(MainActivity.shortShotClockTimeInSecond + "");
-        longShotClockTimeEditText.setText(MainActivity.longShotClockTimeInSecond + "");
+    private void showData() {
+        totalTimeItem.setContent(totalTimeMinute + " mins " + totalTimeSecond + " secs");
+        offenseTimeItem.setContent(offenseTimeInSecond + " secs");
+        afterReboundingTimeItem.setContent(afterReboundingTimeInSecond + " secs");
     }
 
 }
