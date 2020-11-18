@@ -43,7 +43,7 @@ public class ConfigurationsFragment extends BaseFragment {
     @Override
     protected void initViewsAndEvents(View rootView) {
         initViewOnClick();
-        initData();
+        initAndShowData();
     }
 
     private void initViewOnClick() {
@@ -113,6 +113,7 @@ public class ConfigurationsFragment extends BaseFragment {
                     timeOutSecond = secondPicker.getValue();
                 }
                 showData();
+                enableSaveButtonIfValuesChanged();
                 dialog.dismiss();
             } else {
                 Toast.makeText(getContext(), "Invalid time", Toast.LENGTH_SHORT).show();
@@ -153,6 +154,7 @@ public class ConfigurationsFragment extends BaseFragment {
                     afterReboundingTimeInSecond = secondPicker.getValue();
                 }
                 showData();
+                enableSaveButtonIfValuesChanged();
                 dialog.dismiss();
             } else {
                 Toast.makeText(getContext(), "Invalid time", Toast.LENGTH_SHORT).show();
@@ -215,7 +217,8 @@ public class ConfigurationsFragment extends BaseFragment {
         }
     }
 
-    public void initData() {
+    public void initAndShowData() {
+        saveButton.setEnabled(false);
         totalTimeMinute = MainActivity.totalTimeMinute;
         totalTimeSecond = MainActivity.totalTimeSecond;
         offenseTimeInSecond = MainActivity.offenseTimeInSecond;
@@ -223,6 +226,19 @@ public class ConfigurationsFragment extends BaseFragment {
         timeOutMinute = MainActivity.timeOutMinute;
         timeOutSecond = MainActivity.timeOutSecond;
         showData();
+    }
+
+    private void enableSaveButtonIfValuesChanged() {
+        if (totalTimeMinute != MainActivity.totalTimeMinute ||
+                totalTimeSecond != MainActivity.totalTimeSecond ||
+                offenseTimeInSecond != MainActivity.offenseTimeInSecond ||
+                afterReboundingTimeInSecond != MainActivity.afterReboundingTimeInSecond ||
+                timeOutMinute != MainActivity.timeOutMinute ||
+                timeOutSecond != MainActivity.timeOutSecond) {
+            saveButton.setEnabled(true);
+        } else {
+            saveButton.setEnabled(false);
+        }
     }
 
     private void showData() {

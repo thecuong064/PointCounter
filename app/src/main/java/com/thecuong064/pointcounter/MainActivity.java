@@ -140,7 +140,7 @@ public class MainActivity extends BaseActivity {
         viewPager.setCurrentItem(mCurTabPos, false);
 
         if (mCurTabPos == CONFIGURATIONS_TAB_INDEX) {
-            configurationsFragment.initData();
+            configurationsFragment.initAndShowData();
         }
     }
 
