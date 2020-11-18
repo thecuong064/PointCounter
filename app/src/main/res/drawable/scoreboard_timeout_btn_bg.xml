@@ -2,6 +2,6 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:state_activated="true"
-        android:drawable="@drawable/btn_bg_978f0c_corner_4dp"/>
+        android:drawable="@drawable/btn_bg_c5ba16_corner_4dp"/>
     <item android:drawable="@drawable/btn_bg_332dce80_corner_4dp" />
 </selector>
