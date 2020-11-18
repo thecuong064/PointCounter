@@ -52,10 +52,10 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@drawable/btn_bg_332dce80_round_border"
+                    android:background="@drawable/scoreboard_btn_bg"
                     android:gravity="center"
                     android:text="-"
-                    android:textColor="#FFFFFF"
+                    android:textColor="@drawable/scoreboard_btn_text_color"
                     android:textSize="20sp"/>
 
                 <Space
@@ -67,10 +67,10 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@drawable/btn_bg_332dce80_round_border"
+                    android:background="@drawable/scoreboard_btn_bg"
                     android:gravity="center"
                     android:text="+"
-                    android:textColor="#FFFFFF"
+                    android:textColor="@drawable/scoreboard_btn_text_color"
                     android:textSize="20sp" />
 
             </LinearLayout>
@@ -181,10 +181,10 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@drawable/btn_bg_332dce80_round_border"
+                    android:background="@drawable/scoreboard_btn_bg"
                     android:gravity="center"
                     android:text="-"
-                    android:textColor="#FFFFFF"
+                    android:textColor="@drawable/scoreboard_btn_text_color"
                     android:textSize="20sp"/>
 
                 <Space
@@ -196,11 +196,11 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@drawable/btn_bg_332dce80_round_border"
+                    android:background="@drawable/scoreboard_btn_bg"
                     android:gravity="center"
                     android:text="+"
-                    android:textColor="#FFFFFF"
-                    android:textSize="20sp" />
+                    android:textColor="@drawable/scoreboard_btn_text_color"
+                    android:textSize="20sp"/>
 
             </LinearLayout>
 
@@ -300,7 +300,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:orientation="horizontal">
 
@@ -309,10 +309,11 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/btn_bg_332dce80_round_border"
+                android:paddingVertical="5dp"
+                android:background="@drawable/scoreboard_btn_bg"
                 android:gravity="center"
                 android:text="PLAY"
-                android:textColor="#FFFFFF"
+                android:textColor="@drawable/scoreboard_btn_text_color"
                 android:textSize="12sp" />
 
             <Space
@@ -324,10 +325,11 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/btn_bg_332dce80_round_border"
+                android:paddingVertical="5dp"
+                android:background="@drawable/scoreboard_btn_bg"
                 android:gravity="center"
                 android:text="STOP"
-                android:textColor="#FFFFFF"
+                android:textColor="@drawable/scoreboard_btn_text_color"
                 android:textSize="12sp" />
 
             <Space
@@ -339,10 +341,11 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/btn_bg_332dce80_round_border"
+                android:paddingVertical="5dp"
+                android:background="@drawable/scoreboard_btn_bg"
                 android:gravity="center"
                 android:text="14"
-                android:textColor="#FFFFFF"
+                android:textColor="@drawable/scoreboard_btn_text_color"
                 android:textSize="12sp" />
 
             <Space
@@ -354,10 +357,27 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/btn_bg_332dce80_round_border"
+                android:paddingVertical="5dp"
+                android:background="@drawable/scoreboard_btn_bg"
                 android:gravity="center"
                 android:text="24"
-                android:textColor="#FFFFFF"
+                android:textColor="@drawable/scoreboard_btn_text_color"
+                android:textSize="12sp" />
+
+            <Space
+                android:layout_width="20dp"
+                android:layout_height="match_parent"/>
+
+            <TextView
+                android:id="@+id/btn_time_out"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:paddingVertical="5dp"
+                android:background="@drawable/scoreboard_timeout_btn_bg"
+                android:gravity="center"
+                android:text="Timeout"
+                android:textColor="@drawable/scoreboard_btn_text_color"
                 android:textSize="12sp" />
 
         </LinearLayout>

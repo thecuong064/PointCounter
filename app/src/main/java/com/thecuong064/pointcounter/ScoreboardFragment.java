@@ -51,25 +51,27 @@ public class ScoreboardFragment extends BaseFragment {
     @BindView(R.id.btn_stop) TextView stopButton;
     @BindView(R.id.shot_clock_short) TextView shortShotClockButton;
     @BindView(R.id.shot_clock_long) TextView longShotClockButton;
+    @BindView(R.id.btn_time_out) TextView timeOutButton;
 
     private final String HOME_NAME = "HOME_NAME";
     private final String AWAY_NAME = "AWAY_NAME";
     private final String PLAY_STATE = "PLAY";
     private final String PAUSE_STATE = "PAUSE";
     private String SHOT_CLOCK_STATE = PAUSE_STATE;
+    private String TIME_OUT_STATE = PAUSE_STATE;
 
     List<View> homeFoulsViews = new ArrayList<>();
     List<View> awayFoulsViews = new ArrayList<>();
 
     int homePointValue, awayPointValue;
     int homeFoulCount, awayFoulCount;
-    long totalMillis, shotClockMillis;
+    long totalMillis, shotClockMillis, timeOutMillis;
 
-    MyCountDownTimer totalCountDownTimer, shotClockCountDownTimer;
+    MyCountDownTimer totalCountDownTimer, shotClockCountDownTimer, timeOutCountDownTimer;
 
     @Override
     protected int getContentViewId() {
-        return R.layout.fragment_scoreboard;
+        return R.layout.fragment_scoreboard_smaller;
     }
 
     @Override
@@ -90,21 +92,20 @@ public class ScoreboardFragment extends BaseFragment {
         longShotClockButton.setText(MainActivity.offenseTimeInSecond + "");
         initTotalTimer();
         initShotClockTimer(MainActivity.offenseTimeInSecond);
+        initTimeOutTimer();
         playPauseButton.setText(PLAY_STATE);
     }
 
     private void initShotClockTimer(int timeInSeconds) {
+        stopShotClockTimer();
         SHOT_CLOCK_STATE = PAUSE_STATE;
-        if (shotClockCountDownTimer != null) {
-            shotClockCountDownTimer.stop();
-        }
         shotClockMillis = MainActivity.millisFromSecond(timeInSeconds);
-        shotClockTimeTextView.setText(getShotClockTimeStringFromMillis(shotClockMillis));
+        shotClockTimeTextView.setText(getSecondStringFromMillis(shotClockMillis));
         shotClockCountDownTimer = new MyCountDownTimer(shotClockMillis);
         shotClockCountDownTimer.setOnTickListener(new TimerListener() {
             @Override
             public void onTick(long millisUntilFinished) {
-                String currentTime = getShotClockTimeStringFromMillis(millisUntilFinished);
+                String currentTime = getSecondStringFromMillis(millisUntilFinished);
                 shotClockTimeTextView.setText(currentTime);
             }
 
@@ -112,59 +113,76 @@ public class ScoreboardFragment extends BaseFragment {
             public void onFinish() {
                 shotClockTimeTextView.setText("0.0");
                 pauseTotalTimer();
-                shotClockCountDownTimer.stop();
                 initShotClockTimer(MainActivity.offenseTimeInSecond);
             }
         });
     }
 
     private void initTotalTimer() {
-        if (totalCountDownTimer != null) {
-            totalCountDownTimer.stop();
-        }
+        stopTotalTimer();
         totalMillis = MainActivity.millisFromMinute(MainActivity.totalTimeMinute)
                     + MainActivity.millisFromSecond(MainActivity.totalTimeSecond);
-        totalTimeTextView.setText(getTotalTimeStringFromMillis(totalMillis));
+        totalTimeTextView.setText(getMinuteSecondTimeStringFromMillis(totalMillis));
         totalCountDownTimer = new MyCountDownTimer(totalMillis);
         totalCountDownTimer.setOnTickListener(new TimerListener() {
             @Override
             public void onTick(long millisUntilFinished) {
-                String currentTime = getTotalTimeStringFromMillis(millisUntilFinished);
+                String currentTime = getMinuteSecondTimeStringFromMillis(millisUntilFinished);
                 totalTimeTextView.setText(currentTime);
             }
 
             @Override
             public void onFinish() {
                 totalTimeTextView.setText("00 : 00");
-                totalCountDownTimer.stop();
             }
         });
     }
 
-    private String getShotClockTimeStringFromMillis(long millisUntilFinished) {
-        long timeInSeconds = millisUntilFinished/1000;
-        long seconds = timeInSeconds%60;
-        if (seconds > 5) {
-            return getStringWithTwoNumber(seconds);
-        }
-        long tick = (millisUntilFinished - seconds*1000)/100;
-        return getStringWithTwoNumber(seconds) + "." + tick;
+    private void initTimeOutTimer() {
+        stopTimeOutTimer();
+        TIME_OUT_STATE = PAUSE_STATE;
+        timeOutMillis = MainActivity.millisFromMinute(MainActivity.timeOutMinute)
+                + MainActivity.millisFromSecond(MainActivity.timeOutSecond);
+        timeOutCountDownTimer = new MyCountDownTimer(timeOutMillis);
+        timeOutCountDownTimer.setOnTickListener(new TimerListener() {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                String currentTime = getMinuteSecondTimeStringFromMillis(millisUntilFinished);
+                shotClockTimeTextView.setText(currentTime);
+            }
+
+            @Override
+            public void onFinish() {
+                shotClockTimeTextView.setText("00 : 00");
+                playStopTimeOutTimer();
+            }
+        });
     }
 
-    private String getTotalTimeStringFromMillis(long millisUntilFinished) {
+    private String getSecondStringFromMillis(long millisUntilFinished) {
+        long timeInSeconds = millisUntilFinished/1000;
+        long seconds = timeInSeconds%60 + (timeInSeconds/60)*60;
+        if (seconds > 7) {
+            return getNumberStringWithTwoDigit(seconds);
+        }
+        long tick = (millisUntilFinished - seconds*1000)/100;
+        return getNumberStringWithTwoDigit(seconds) + "." + tick;
+    }
+
+    private String getMinuteSecondTimeStringFromMillis(long millisUntilFinished) {
         long timeInSeconds = millisUntilFinished/1000;
         long seconds = timeInSeconds%60;
         long minutes = timeInSeconds/60;
-        String secondStr = getStringWithTwoNumber(seconds);
-        String minuteStr = getStringWithTwoNumber(minutes);
+        String secondStr = getNumberStringWithTwoDigit(seconds);
+        String minuteStr = getNumberStringWithTwoDigit(minutes);
         if (minutes == 0) {
             long tick = (millisUntilFinished - seconds*1000)/100;
-            return getStringWithTwoNumber(seconds) + "." + tick;
+            return getNumberStringWithTwoDigit(seconds) + "." + tick;
         }
         return minuteStr + " : " + secondStr;
     }
 
-    private String getStringWithTwoNumber(long num) {
+    private String getNumberStringWithTwoDigit(long num) {
         return (num > 9) ? "" + num : "0" + num;
     }
 
@@ -211,10 +229,12 @@ public class ScoreboardFragment extends BaseFragment {
 
         //shotClockTimeTextView.setOnClickListener(v -> playPauseShotClockTimer());
 
-        stopButton.setOnClickListener(v -> stopTimer());
+        stopButton.setOnClickListener(v -> stopAndResetTimers());
 
         shortShotClockButton.setOnClickListener(v -> resetShotClock(MainActivity.afterReboundingTimeInSecond));
         longShotClockButton.setOnClickListener(v -> resetShotClock(MainActivity.offenseTimeInSecond));
+
+        timeOutButton.setOnClickListener(v -> playStopTimeOutTimer());
     }
 
     private void resetShotClock(int timeInSeconds) {
@@ -257,16 +277,91 @@ public class ScoreboardFragment extends BaseFragment {
     }
 
     private void playTotalTimer() {
-        totalCountDownTimer.play();
-        playPauseButton.setText(PAUSE_STATE);
+        if (totalCountDownTimer != null) {
+            totalCountDownTimer.play();
+            playPauseButton.setText(PAUSE_STATE);
+        }
     }
 
     private void pauseTotalTimer() {
-        totalCountDownTimer.pause();
-        playPauseButton.setText(PLAY_STATE);
+        if (totalCountDownTimer != null) {
+            totalCountDownTimer.pause();
+            playPauseButton.setText(PLAY_STATE);
+        }
+    }
+    
+    private void playStopTimeOutTimer() {
+        // TODO: change the state to enum
+        if (TIME_OUT_STATE.equals(PAUSE_STATE)) {
+            pauseTotalTimer();
+            stopShotClockTimer();
+            disableButtonsWhenTimingOut();
+            playTimeOutTimer();
+            timeOutButton.setActivated(true);
+        } else {
+            timeOutButton.setActivated(false);
+            stopTimeOutTimer();
+            initTimeOutTimer();
+            initShotClockTimer(MainActivity.offenseTimeInSecond);
+            enableButtonsAfterTimingOut();
+        }
     }
 
-    private void stopTimer() {
+    private void playTimeOutTimer() {
+        if (timeOutCountDownTimer != null) {
+            timeOutCountDownTimer.play();
+            TIME_OUT_STATE = PLAY_STATE;
+        }
+    }
+
+    private void stopTimeOutTimer() {
+        if (timeOutCountDownTimer != null) {
+            timeOutCountDownTimer.stop();
+            TIME_OUT_STATE = PAUSE_STATE;
+        }
+    }
+
+    private void stopTotalTimer() {
+        if (totalCountDownTimer != null) {
+            totalCountDownTimer.stop();
+        }
+    }
+
+    private void stopShotClockTimer() {
+        if (shotClockCountDownTimer != null) {
+            shotClockCountDownTimer.stop();
+        }
+    }
+
+    private void disableButtonsWhenTimingOut() {
+        homePointIncButton.setEnabled(false);
+        homePointDecButton.setEnabled(false);
+        awayPointIncButton.setEnabled(false);
+        awayPointDecButton.setEnabled(false);
+        homeFoulsView.setEnabled(false);
+        awayFoulsView.setEnabled(false);
+        playPauseButton.setEnabled(false);
+        stopButton.setEnabled(false);
+        shortShotClockButton.setEnabled(false);
+        longShotClockButton.setEnabled(false);
+    }
+
+    private void enableButtonsAfterTimingOut() {
+        homePointIncButton.setEnabled(true);
+        homePointDecButton.setEnabled(true);
+        awayPointIncButton.setEnabled(true);
+        awayPointDecButton.setEnabled(true);
+        homeFoulsView.setEnabled(true);
+        awayFoulsView.setEnabled(true);
+        playPauseButton.setEnabled(true);
+        stopButton.setEnabled(true);
+        shortShotClockButton.setEnabled(true);
+        longShotClockButton.setEnabled(true);
+    }
+
+    private void stopAndResetTimers() {
+        stopTotalTimer();
+        stopShotClockTimer();
         initTimersView();
     }
 

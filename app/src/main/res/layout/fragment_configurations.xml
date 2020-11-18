@@ -30,6 +30,13 @@
         app:itemTitle="After-offensive-rebounding time"
         app:itemLineShow="true"/>
 
+    <com.thecuong064.pointcounter.widget.ConfigurationItemView
+        android:id="@+id/item_time_out"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        app:itemTitle="Timeout"
+        app:itemLineShow="true"/>
+
     <TextView
         android:id="@+id/btn_save"
         android:layout_width="wrap_content"
@@ -38,10 +45,10 @@
         android:paddingVertical="5dp"
         android:layout_marginTop="20dp"
         android:layout_gravity="center_horizontal"
-        android:background="@drawable/btn_bg_332dce80_round_border"
+        android:background="@drawable/scoreboard_btn_bg"
         android:gravity="center"
         android:text="Save"
-        android:textColor="#FFFFFF"
-        android:textSize="20sp"/>
+        android:textColor="@drawable/scoreboard_btn_text_color"
+        android:textSize="16sp"/>
 
 </LinearLayout>

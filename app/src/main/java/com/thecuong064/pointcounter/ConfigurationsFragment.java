@@ -19,12 +19,21 @@ public class ConfigurationsFragment extends BaseFragment {
     @BindView(R.id.item_total_time) ConfigurationItemView totalTimeItem;
     @BindView(R.id.item_offense_time) ConfigurationItemView offenseTimeItem;
     @BindView(R.id.item_after_rebounding_time) ConfigurationItemView afterReboundingTimeItem;
+    @BindView(R.id.item_time_out) ConfigurationItemView timeOutItem;
+
     @BindView(R.id.btn_save) TextView saveButton;
+
+    public static String TOTAl_TIME = "total_time";
+    public static String OFFENSE_TIME = "offense_time";
+    public static String AFTER_REBOUNDING_TIME = "after_rebounding_time";
+    public static String TIME_OUT = "time_out";
 
     private int totalTimeMinute;
     private int totalTimeSecond;
     private int afterReboundingTimeInSecond;
     private int offenseTimeInSecond;
+    private int timeOutMinute;
+    private int timeOutSecond;
 
     @Override
     protected int getContentViewId() {
@@ -39,24 +48,31 @@ public class ConfigurationsFragment extends BaseFragment {
 
     private void initViewOnClick() {
         totalTimeItem.setOnClickListener(v ->
-                showMinuteAndSecondPickerDialog("Total time", 60, 0, totalTimeMinute,
+                showMinuteAndSecondPickerDialog("Total time", TOTAl_TIME,
+                        60, 0, totalTimeMinute,
                         59, 0, totalTimeSecond)
         );
 
         offenseTimeItem.setOnClickListener(v ->
-                showSecondPickerDialog(MainActivity.OFFENSE_TIME_SAVE_KEY,
+                showSecondPickerDialog(OFFENSE_TIME,
                         "Offense time", 59, 1, offenseTimeInSecond)
         );
 
         afterReboundingTimeItem.setOnClickListener(v ->
-                showSecondPickerDialog(MainActivity.AFTER_REBOUNDING_TIME_SAVE_KEY,
+                showSecondPickerDialog(AFTER_REBOUNDING_TIME,
                         "After-offensive-rebounding time", 59, 1, afterReboundingTimeInSecond)
+        );
+
+        timeOutItem.setOnClickListener(v ->
+                showMinuteAndSecondPickerDialog("Time out", TIME_OUT,
+                        20, 0, timeOutMinute,
+                        59, 0, timeOutSecond)
         );
 
         saveButton.setOnClickListener(v -> showConfirmationDialog());
     }
 
-    private void showMinuteAndSecondPickerDialog(String title,
+    private void showMinuteAndSecondPickerDialog(String title, String type,
                                                  int minuteMax, int minuteMin, int currentMin,
                                                  int secondMax, int secondMin, int currentSec) {
         // create an alert builder
@@ -89,8 +105,13 @@ public class ConfigurationsFragment extends BaseFragment {
         TextView acceptBtn = customLayout.findViewById(R.id.btn_right);
         acceptBtn.setOnClickListener(v -> {
             if (minutePicker.getValue() != 0 || secondPicker.getValue() != 0) {
-                totalTimeMinute = minutePicker.getValue();
-                totalTimeSecond = secondPicker.getValue();
+                if (type == TOTAl_TIME) {
+                    totalTimeMinute = minutePicker.getValue();
+                    totalTimeSecond = secondPicker.getValue();
+                } else {
+                    timeOutMinute = minutePicker.getValue();
+                    timeOutSecond = secondPicker.getValue();
+                }
                 showData();
                 dialog.dismiss();
             } else {
@@ -126,7 +147,7 @@ public class ConfigurationsFragment extends BaseFragment {
         TextView acceptBtn = customLayout.findViewById(R.id.btn_right);
         acceptBtn.setOnClickListener(v -> {
             if (secondPicker.getValue() != 0) {
-                if (type == MainActivity.OFFENSE_TIME_SAVE_KEY) {
+                if (type == OFFENSE_TIME) {
                     offenseTimeInSecond = secondPicker.getValue();
                 } else {
                     afterReboundingTimeInSecond = secondPicker.getValue();
@@ -185,6 +206,12 @@ public class ConfigurationsFragment extends BaseFragment {
 
             ((MainActivity) getActivity()).setConfiguration(MainActivity.millisFromSecond(afterReboundingTimeInSecond),
                     MainActivity.AFTER_REBOUNDING_TIME_SAVE_KEY);
+
+            ((MainActivity) getActivity()).setConfiguration(MainActivity.millisFromMinute(timeOutMinute),
+                    MainActivity.TIME_OUT_MINUTE_SAVE_KEY);
+
+            ((MainActivity) getActivity()).setConfiguration(MainActivity.millisFromSecond(timeOutSecond),
+                    MainActivity.TIME_OUT_SECOND_SAVE_KEY);
         }
     }
 
@@ -193,6 +220,8 @@ public class ConfigurationsFragment extends BaseFragment {
         totalTimeSecond = MainActivity.totalTimeSecond;
         offenseTimeInSecond = MainActivity.offenseTimeInSecond;
         afterReboundingTimeInSecond = MainActivity.afterReboundingTimeInSecond;
+        timeOutMinute = MainActivity.timeOutMinute;
+        timeOutSecond = MainActivity.timeOutSecond;
         showData();
     }
 
@@ -200,6 +229,7 @@ public class ConfigurationsFragment extends BaseFragment {
         totalTimeItem.setContent(totalTimeMinute + " mins " + totalTimeSecond + " secs");
         offenseTimeItem.setContent(offenseTimeInSecond + " secs");
         afterReboundingTimeItem.setContent(afterReboundingTimeInSecond + " secs");
+        timeOutItem.setContent(timeOutMinute + " mins " + timeOutSecond + " secs");
     }
 
 }

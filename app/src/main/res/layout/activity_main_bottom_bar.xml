@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:text="Scoreboard"
-            android:textColor="@color/bottom_tab_tv_color"
+            android:textColor="@drawable/bottom_tab_tv_color"
             android:textSize="12sp" />
 
     </LinearLayout>
@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:text="Configurations"
-            android:textColor="@color/bottom_tab_tv_color"
+            android:textColor="@drawable/bottom_tab_tv_color"
             android:textSize="12sp" />
 
     </LinearLayout>

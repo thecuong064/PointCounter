@@ -28,16 +28,22 @@ public class MainActivity extends BaseActivity {
     public static String TOTAl_TIME_SECOND_SAVE_KEY = "total_time_second";
     public static String OFFENSE_TIME_SAVE_KEY = "offense_time";
     public static String AFTER_REBOUNDING_TIME_SAVE_KEY = "after_rebounding_time";
+    public static String TIME_OUT_MINUTE_SAVE_KEY = "time_out_minute";
+    public static String TIME_OUT_SECOND_SAVE_KEY = "time_out_second";
 
     public static final int DEFAULT_TOTAL_TIME_MIN = 12 * 60 * 1000;
     public static final int DEFAULT_TOTAL_TIME_SEC = 0;
     public static final int DEFAULT_SHORT_SHOT_CLOCK_TIME = 14 * 1000;
     public static final int DEFAULT_LONG_SHOT_CLOCK_TIME = 24 * 1000;
+    public static final int DEFAULT_TIME_OUT_MIN = 1 * 60 * 1000;
+    public static final int DEFAULT_TIME_OUT_SEC= 0;
 
     public static int totalTimeMinute;
     public static int totalTimeSecond;
     public static int afterReboundingTimeInSecond;
     public static int offenseTimeInSecond;
+    public static int timeOutMinute;
+    public static int timeOutSecond;
 
     public static final int SCOREBOARD_TAB_INDEX = 0;
     public static final int CONFIGURATIONS_TAB_INDEX = 1;
@@ -78,6 +84,10 @@ public class MainActivity extends BaseActivity {
                 DEFAULT_SHORT_SHOT_CLOCK_TIME));
         offenseTimeInSecond = secondFromMillis(pref.getLong(OFFENSE_TIME_SAVE_KEY,
                 DEFAULT_LONG_SHOT_CLOCK_TIME));
+        timeOutMinute = minuteFromMillis(pref.getLong(TIME_OUT_MINUTE_SAVE_KEY,
+                DEFAULT_TIME_OUT_MIN));
+        timeOutSecond = secondFromMillis(pref.getLong(TIME_OUT_SECOND_SAVE_KEY,
+                DEFAULT_TIME_OUT_SEC));
     }
 
     private void initBottomTab() {
