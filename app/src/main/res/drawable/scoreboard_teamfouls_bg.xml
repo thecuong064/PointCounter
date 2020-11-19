@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:state_pressed="true"
-        android:drawable="@drawable/btn_bg_c5ba16_corner_4dp"/>
-    <item
-        android:state_activated="true"
-        android:drawable="@drawable/btn_bg_c5ba16_corner_4dp"/>
-    <item
         android:state_enabled="true"
-        android:drawable="@drawable/btn_bg_a633c37c_corner_4dp"/>
-    <item android:drawable="@drawable/btn_bg_282942_corner_4dp" />
+        android:drawable="@drawable/bg_stroke_2_solid_d5b51c"/>
+    <item android:drawable="@drawable/bg_stroke_05_solid_555450" />
 </selector>
