@@ -27,8 +27,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="HOME"
-                android:textColor="#fff"
-                android:textSize="25sp" />
+                style="@style/ScoreboardTeamNameTextView"/>
 
             <TextView
                 android:id="@+id/tv_home_point"
@@ -39,7 +38,7 @@
                 android:textColor="#fff"
                 android:maxLines="1"
                 android:textSize="65sp"
-                android:autoSizeTextType="uniform" />
+                android:autoSizeTextType="uniform"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -52,11 +51,8 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@drawable/scoreboard_btn_bg"
-                    android:gravity="center"
                     android:text="-"
-                    android:textColor="@drawable/scoreboard_btn_text_color"
-                    android:textSize="20sp"/>
+                    style="@style/AnimatedButton.ScoreboardPoint"/>
 
                 <Space
                     android:layout_width="20dp"
@@ -67,29 +63,18 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@drawable/scoreboard_btn_bg"
-                    android:gravity="center"
                     android:text="+"
-                    android:textColor="@drawable/scoreboard_btn_text_color"
-                    android:textSize="20sp" />
+                    style="@style/AnimatedButton.ScoreboardPoint"/>
 
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/view_home_fouls"
-                android:layout_width="match_parent"
-                android:layout_height="24dp"
-                android:padding="7dp"
-                android:layout_marginTop="25dp"
-                android:background="@drawable/cor_20_solid_120f2c">
+                style="@style/ScoreboardTeamFoulsLinearLayout">
 
                 <View
                     android:id="@+id/view_home_fouls_1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="#fff000"
-                    android:visibility="invisible"/>
+                    style="@style/ScoreboardTeamFoulView"/>
 
                 <Space
                     android:layout_width="5dp"
@@ -97,11 +82,7 @@
 
                 <View
                     android:id="@+id/view_home_fouls_2"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="#fff000"
-                    android:visibility="invisible"/>
+                    style="@style/ScoreboardTeamFoulView"/>
 
                 <Space
                     android:layout_width="5dp"
@@ -109,11 +90,7 @@
 
                 <View
                     android:id="@+id/view_home_fouls_3"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="#fff000"
-                    android:visibility="invisible"/>
+                    style="@style/ScoreboardTeamFoulView"/>
 
                 <Space
                     android:layout_width="5dp"
@@ -121,11 +98,7 @@
 
                 <View
                     android:id="@+id/view_home_fouls_4"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="#fff000"
-                    android:visibility="invisible"/>
+                    style="@style/ScoreboardTeamFoulView"/>
 
                 <Space
                     android:layout_width="5dp"
@@ -133,11 +106,7 @@
 
                 <View
                     android:id="@+id/view_home_fouls_5"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="#fff000"
-                    android:visibility="invisible"/>
+                    style="@style/ScoreboardTeamFoulView"/>
 
             </LinearLayout>
 
@@ -156,8 +125,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="AWAY"
-                android:textColor="#fff"
-                android:textSize="25sp" />
+                style="@style/ScoreboardTeamNameTextView"/>
 
             <TextView
                 android:id="@+id/tv_away_point"
@@ -168,7 +136,7 @@
                 android:textColor="#fff"
                 android:maxLines="1"
                 android:textSize="65sp"
-                android:autoSizeTextType="uniform" />
+                android:autoSizeTextType="uniform"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -181,11 +149,8 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@drawable/scoreboard_btn_bg"
-                    android:gravity="center"
                     android:text="-"
-                    android:textColor="@drawable/scoreboard_btn_text_color"
-                    android:textSize="20sp"/>
+                    style="@style/AnimatedButton.ScoreboardPoint"/>
 
                 <Space
                     android:layout_width="20dp"
@@ -196,29 +161,18 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@drawable/scoreboard_btn_bg"
-                    android:gravity="center"
                     android:text="+"
-                    android:textColor="@drawable/scoreboard_btn_text_color"
-                    android:textSize="20sp"/>
+                    style="@style/AnimatedButton.ScoreboardPoint"/>
 
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/view_away_fouls"
-                android:layout_width="match_parent"
-                android:layout_height="24dp"
-                android:padding="7dp"
-                android:layout_marginTop="25dp"
-                android:background="@drawable/cor_20_solid_120f2c">
+                style="@style/ScoreboardTeamFoulsLinearLayout">
 
                 <View
                     android:id="@+id/view_away_fouls_1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="#fff000"
-                    android:visibility="invisible"/>
+                    style="@style/ScoreboardTeamFoulView"/>
 
                 <Space
                     android:layout_width="5dp"
@@ -226,11 +180,7 @@
 
                 <View
                     android:id="@+id/view_away_fouls_2"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="#fff000"
-                    android:visibility="invisible"/>
+                    style="@style/ScoreboardTeamFoulView"/>
 
                 <Space
                     android:layout_width="5dp"
@@ -238,11 +188,7 @@
 
                 <View
                     android:id="@+id/view_away_fouls_3"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="#fff000"
-                    android:visibility="invisible"/>
+                    style="@style/ScoreboardTeamFoulView"/>
 
                 <Space
                     android:layout_width="5dp"
@@ -250,11 +196,7 @@
 
                 <View
                     android:id="@+id/view_away_fouls_4"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="#fff000"
-                    android:visibility="invisible"/>
+                    style="@style/ScoreboardTeamFoulView"/>
 
                 <Space
                     android:layout_width="5dp"
@@ -262,11 +204,7 @@
 
                 <View
                     android:id="@+id/view_away_fouls_5"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="#fff000"
-                    android:visibility="invisible"/>
+                    style="@style/ScoreboardTeamFoulView"/>
 
             </LinearLayout>
 
@@ -309,12 +247,8 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:paddingVertical="5dp"
-                android:background="@drawable/scoreboard_btn_bg"
-                android:gravity="center"
                 android:text="PLAY"
-                android:textColor="@drawable/scoreboard_btn_text_color"
-                android:textSize="12sp" />
+                style="@style/AnimatedButton.ScoreboardTimer"/>
 
             <Space
                 android:layout_width="20dp"
@@ -325,12 +259,8 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:paddingVertical="5dp"
-                android:background="@drawable/scoreboard_btn_bg"
-                android:gravity="center"
                 android:text="STOP"
-                android:textColor="@drawable/scoreboard_btn_text_color"
-                android:textSize="12sp" />
+                style="@style/AnimatedButton.ScoreboardTimer"/>
 
             <Space
                 android:layout_width="20dp"
@@ -341,12 +271,8 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:paddingVertical="5dp"
-                android:background="@drawable/scoreboard_btn_bg"
-                android:gravity="center"
                 android:text="14"
-                android:textColor="@drawable/scoreboard_btn_text_color"
-                android:textSize="12sp" />
+                style="@style/AnimatedButton.ScoreboardTimer"/>
 
             <Space
                 android:layout_width="20dp"
@@ -357,12 +283,8 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:paddingVertical="5dp"
-                android:background="@drawable/scoreboard_btn_bg"
-                android:gravity="center"
                 android:text="24"
-                android:textColor="@drawable/scoreboard_btn_text_color"
-                android:textSize="12sp" />
+                style="@style/AnimatedButton.ScoreboardTimer"/>
 
             <Space
                 android:layout_width="20dp"
@@ -373,12 +295,8 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:paddingVertical="5dp"
-                android:background="@drawable/scoreboard_timeout_btn_bg"
-                android:gravity="center"
                 android:text="Timeout"
-                android:textColor="@drawable/scoreboard_btn_text_color"
-                android:textSize="12sp" />
+                style="@style/AnimatedButton.ScoreboardTimer"/>
 
         </LinearLayout>
 

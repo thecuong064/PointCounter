@@ -41,14 +41,9 @@
         android:id="@+id/btn_save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="10dp"
-        android:paddingVertical="5dp"
         android:layout_marginTop="20dp"
         android:layout_gravity="center_horizontal"
-        android:background="@drawable/scoreboard_btn_bg"
-        android:gravity="center"
         android:text="Save"
-        android:textColor="@drawable/scoreboard_btn_text_color"
-        android:textSize="16sp"/>
+        style="@style/AnimatedButton.Save"/>
 
 </LinearLayout>

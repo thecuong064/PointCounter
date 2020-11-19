@@ -1,6 +1,7 @@
 package com.thecuong064.pointcounter.base;
 
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
@@ -36,6 +37,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         mMainView = findViewById(R.id.ll_main);
         if (getContentViewId() != 0) {
             View childView = LayoutInflater.from(this).inflate(getContentViewId(), null, false);
