@@ -230,13 +230,65 @@ public class ScoreboardFragment extends BaseFragment {
 
         //shotClockTimeTextView.setOnClickListener(v -> playPauseShotClockTimer());
 
-        stopButton.setOnClickListener(v -> stopAndResetTimers());
+        stopButton.setOnClickListener(v -> showTimerResetConfirmationDialog());
 
         shortShotClockButton.setOnClickListener(v -> resetShotClock(MainActivity.afterReboundingTimeInSecond));
         longShotClockButton.setOnClickListener(v -> resetShotClock(MainActivity.offenseTimeInSecond));
 
         timeOutButton.setOnClickListener(v -> playStopTimeOutTimer());
-        resetPointsButton.setOnClickListener(v -> {});
+        resetPointsButton.setOnClickListener(v -> showPointsResetConfirmationDialog());
+    }
+
+    private void showTimerResetConfirmationDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+        String message = "Are you sure you want to reset all timers?";
+        builder.setMessage(message)
+                .setTitle("Warning");
+
+        // Add the buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                stopAndResetTimers();
+            }
+        });
+
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void showPointsResetConfirmationDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+        String message = "Are you sure you want to reset all points to 0?";
+        builder.setMessage(message)
+                .setTitle("Warning");
+
+        // Add the buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                resetPoints();
+            }
+        });
+
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void resetPoints() {
+        homePointValue = 0;
+        awayPointValue = 0;
+        updatePoints();
     }
 
     private void resetShotClock(int timeInSeconds) {
