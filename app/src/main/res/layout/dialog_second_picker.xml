@@ -16,7 +16,7 @@
 
         <com.thecuong064.pointcounter.widget.CustomNumberPicker
             android:id="@+id/picker_second"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </LinearLayout>
 
@@ -37,10 +37,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:textColor="#ffffff"
-            android:background="@drawable/btn_bg_332dce80"
-            android:textSize="14sp"
-            android:text="Cancel" />
+            android:text="Cancel"
+            style="@style/PickerButton.Left"/>
 
         <View
             android:layout_width="1dp"
@@ -53,10 +51,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:textColor="#ffffff"
-            android:background="@drawable/btn_bg_332dce80"
-            android:textSize="14sp"
-            android:text="OK" />
+            android:text="OK"
+            style="@style/PickerButton.Right" />
 
     </LinearLayout>
 

@@ -240,65 +240,106 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:orientation="horizontal">
+            android:padding="10dp"
+            android:orientation="vertical"
+            android:background="@drawable/bg_stroke_2_solid_ffffff">
 
-            <TextView
-                android:id="@+id/btn_play_pause"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="PLAY"
-                style="@style/AnimatedButton.ScoreboardTimer"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-            <Space
-                android:layout_width="20dp"
-                android:layout_height="match_parent"/>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/btn_stop"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="STOP"
-                style="@style/AnimatedButton.ScoreboardTimer"/>
+                    <TextView
+                        android:id="@+id/btn_reset_points"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="Reset points"
+                        style="@style/AnimatedButton.ScoreboardTimer.Danger"/>
 
-            <Space
-                android:layout_width="20dp"
-                android:layout_height="match_parent"/>
+                    <Space
+                        android:layout_width="10dp"
+                        android:layout_height="match_parent"/>
 
-            <TextView
-                android:id="@+id/shot_clock_short"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="14"
-                style="@style/AnimatedButton.ScoreboardTimer"/>
+                    <TextView
+                        android:id="@+id/btn_stop"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="Reset time"
+                        style="@style/AnimatedButton.ScoreboardTimer.Danger"/>
+                </LinearLayout>
 
-            <Space
-                android:layout_width="20dp"
-                android:layout_height="match_parent"/>
+                <Space
+                    android:layout_width="20dp"
+                    android:layout_height="match_parent" />
 
-            <TextView
-                android:id="@+id/shot_clock_long"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="24"
-                style="@style/AnimatedButton.ScoreboardTimer"/>
+                <TextView
+                    android:id="@+id/btn_play_pause"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="PLAY"
+                    style="@style/AnimatedButton.ScoreboardTimer"/>
 
-            <Space
-                android:layout_width="20dp"
-                android:layout_height="match_parent"/>
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/btn_time_out"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="Timeout"
-                style="@style/AnimatedButton.ScoreboardTimer"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/btn_time_out"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="Timeout"
+                    style="@style/AnimatedButton.ScoreboardTimer"/>
+
+                <Space
+                    android:layout_width="20dp"
+                    android:layout_height="match_parent"/>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/shot_clock_short"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="14"
+                        style="@style/AnimatedButton.ScoreboardTimer"/>
+
+                    <Space
+                        android:layout_width="10dp"
+                        android:layout_height="match_parent"/>
+
+                    <TextView
+                        android:id="@+id/shot_clock_long"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="24"
+                        style="@style/AnimatedButton.ScoreboardTimer"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
 
         </LinearLayout>
+
 
     </LinearLayout>
 

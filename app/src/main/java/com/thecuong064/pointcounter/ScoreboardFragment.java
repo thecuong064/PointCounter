@@ -52,6 +52,7 @@ public class ScoreboardFragment extends BaseFragment {
     @BindView(R.id.shot_clock_short) TextView shortShotClockButton;
     @BindView(R.id.shot_clock_long) TextView longShotClockButton;
     @BindView(R.id.btn_time_out) TextView timeOutButton;
+    @BindView(R.id.btn_reset_points) TextView resetPointsButton;
 
     private final String HOME_NAME = "HOME_NAME";
     private final String AWAY_NAME = "AWAY_NAME";
@@ -235,6 +236,7 @@ public class ScoreboardFragment extends BaseFragment {
         longShotClockButton.setOnClickListener(v -> resetShotClock(MainActivity.offenseTimeInSecond));
 
         timeOutButton.setOnClickListener(v -> playStopTimeOutTimer());
+        resetPointsButton.setOnClickListener(v -> {});
     }
 
     private void resetShotClock(int timeInSeconds) {
@@ -344,6 +346,7 @@ public class ScoreboardFragment extends BaseFragment {
         stopButton.setEnabled(false);
         shortShotClockButton.setEnabled(false);
         longShotClockButton.setEnabled(false);
+        resetPointsButton.setEnabled(false);
     }
 
     private void enableButtonsAfterTimingOut() {
@@ -357,9 +360,10 @@ public class ScoreboardFragment extends BaseFragment {
         stopButton.setEnabled(true);
         shortShotClockButton.setEnabled(true);
         longShotClockButton.setEnabled(true);
+        resetPointsButton.setEnabled(true);
     }
 
-    private void stopAndResetTimers() {
+    public void stopAndResetTimers() {
         stopTotalTimer();
         stopShotClockTimer();
         initTimersView();

@@ -19,10 +19,14 @@
     </style>
 
     <style name="AnimatedButton.ScoreboardTimer">
-        <item name="android:paddingBottom">5dp</item>
-        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:paddingTop">8dp</item>
         <item name="android:textSize">12sp</item>
         <item name="android:gravity">center</item>
+    </style>
+    <style name="AnimatedButton.ScoreboardTimer.Danger">
+        <item name="android:background">@drawable/scoreboard_btn_bg_danger</item>
+        <item name="android:textSize">10sp</item>
     </style>
 
     <style name="AnimatedButton.Save">
@@ -39,7 +43,7 @@
         <item name="android:layout_height">24dp</item>
         <item name="android:padding">7dp</item>
         <item name="android:layout_marginTop">25dp</item>
-        <item name="android:background">@drawable/cor_20_solid_120f2c</item>
+        <item name="android:background">@drawable/bg_stroke_2_solid_120f2c</item>
     </style>
 
     <style name="ScoreboardTeamFoulView">
@@ -55,4 +59,15 @@
         <item name="android:textSize">25sp</item>
     </style>
 
+    <style name="PickerButton">
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:background">@drawable/btn_bg_a633c37c</item>
+    </style>
+
+    <style name="PickerButton.Left">
+    </style>
+
+    <style name="PickerButton.Right">
+    </style>
 </resources>

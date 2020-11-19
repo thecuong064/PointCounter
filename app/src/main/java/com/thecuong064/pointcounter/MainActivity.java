@@ -73,7 +73,7 @@ public class MainActivity extends BaseActivity {
         editor.putLong(save_key, newValue);
         editor.apply();
         getConfigurations();
-        scoreboardFragment.initTimersView();
+        scoreboardFragment.stopAndResetTimers();
     }
 
     public void getConfigurations() {
