@@ -1,6 +1,5 @@
 package com.thecuong064.pointcounter;
 
-import android.content.DialogInterface;
 import android.view.View;
 import android.widget.NumberPicker;
 import android.widget.TextView;
@@ -75,117 +74,95 @@ public class ConfigurationsFragment extends BaseFragment {
     private void showMinuteAndSecondPickerDialog(String title, String type,
                                                  int minuteMax, int minuteMin, int currentMin,
                                                  int secondMax, int secondMin, int currentSec) {
-        // create an alert builder
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle(title);
-
         // set the custom layout
-        View customLayout = getLayoutInflater().inflate(R.layout.dialog_minute_second_picker, null);
-        builder.setView(customLayout);
+        View customLayout = getLayoutInflater().inflate(R.layout.view_picker_minute_second, null);
 
-        CustomNumberPicker minutePicker = customLayout.findViewById(R.id.picker_minute);
+        CustomNumberPicker minutePicker = getMinutePicker(customLayout, minuteMax, minuteMin, currentMin);
+        CustomNumberPicker secondPicker = getSecondPicker(customLayout, secondMax, secondMin, currentSec);
+
+        new NumberPickerDialog.Builder(getContext())
+                .setView(customLayout)
+                .setTitle(title)
+                .setPositiveButton("OK", (dialog, which) -> {
+                    if (minutePicker.getValue() != 0 || secondPicker.getValue() != 0) {
+                        if (type == TOTAl_TIME) {
+                            totalTimeMinute = minutePicker.getValue();
+                            totalTimeSecond = secondPicker.getValue();
+                        } else {
+                            timeOutMinute = minutePicker.getValue();
+                            timeOutSecond = secondPicker.getValue();
+                        }
+                        showData();
+                        enableSaveButtonIfValuesChanged();
+                        dialog.dismiss();
+                    } else {
+                        Toast.makeText(getContext(), "Invalid time", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
+    }
+
+    private void showSecondPickerDialog(String type, String title,
+                                        int maxValue, int minValue, int currentValue) {
+        // set the custom layout
+        View customLayout = getLayoutInflater().inflate(R.layout.view_picker_second, null);
+
+        CustomNumberPicker secondPicker = getSecondPicker(customLayout, maxValue, minValue, currentValue);
+
+        new NumberPickerDialog.Builder(getContext())
+                .setView(customLayout)
+                .setTitle(title)
+                .setPositiveButton("OK", (dialog, which) -> {
+                    if (secondPicker.getValue() != 0) {
+                        if (type == OFFENSE_TIME) {
+                            offenseTimeInSecond = secondPicker.getValue();
+                        } else {
+                            afterReboundingTimeInSecond = secondPicker.getValue();
+                        }
+                        showData();
+                        enableSaveButtonIfValuesChanged();
+                        dialog.dismiss();
+                    } else {
+                        Toast.makeText(getContext(), "Invalid time", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
+    }
+
+    private CustomNumberPicker getMinutePicker(View pickerLayout, int minuteMax, int minuteMin, int currentMin) {
+        CustomNumberPicker minutePicker = pickerLayout.findViewById(R.id.picker_minute);
         minutePicker.setMaxValue(minuteMax);
         minutePicker.setMinValue(minuteMin);
         minutePicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         minutePicker.setFormatter(i -> String.format("%02d", i));
         minutePicker.setValue(currentMin);
 
-        CustomNumberPicker secondPicker = customLayout.findViewById(R.id.picker_second);
+        return minutePicker;
+    }
+
+    private CustomNumberPicker getSecondPicker(View pickerLayout, int secondMax, int secondMin, int currentSecond) {
+        CustomNumberPicker secondPicker = pickerLayout.findViewById(R.id.picker_second);
         secondPicker.setMaxValue(secondMax);
         secondPicker.setMinValue(secondMin);
         secondPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         secondPicker.setFormatter(i -> String.format("%02d", i));
-        secondPicker.setValue(currentSec);
+        secondPicker.setValue(currentSecond);
 
-        AlertDialog dialog = builder.create();
-
-        TextView cancelBtn = customLayout.findViewById(R.id.btn_left);
-        cancelBtn.setOnClickListener(v -> dialog.dismiss());
-
-        TextView acceptBtn = customLayout.findViewById(R.id.btn_right);
-        acceptBtn.setOnClickListener(v -> {
-            if (minutePicker.getValue() != 0 || secondPicker.getValue() != 0) {
-                if (type == TOTAl_TIME) {
-                    totalTimeMinute = minutePicker.getValue();
-                    totalTimeSecond = secondPicker.getValue();
-                } else {
-                    timeOutMinute = minutePicker.getValue();
-                    timeOutSecond = secondPicker.getValue();
-                }
-                showData();
-                enableSaveButtonIfValuesChanged();
-                dialog.dismiss();
-            } else {
-                Toast.makeText(getContext(), "Invalid time", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        dialog.show();
+        return secondPicker;
     }
 
-    private void showSecondPickerDialog(String type, String title,
-                                        int maxValue, int minValue, int currentValue) {
-        // create an alert builder
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle(title);
-
-        // set the custom layout
-        View customLayout = getLayoutInflater().inflate(R.layout.dialog_second_picker, null);
-        builder.setView(customLayout);
-
-        CustomNumberPicker secondPicker = customLayout.findViewById(R.id.picker_second);
-        secondPicker.setMaxValue(maxValue);
-        secondPicker.setMinValue(minValue);
-        secondPicker.setValue(currentValue);
-        secondPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
-        secondPicker.setFormatter(i -> String.format("%02d", i));
-
-        AlertDialog dialog = builder.create();
-
-        TextView cancelBtn = customLayout.findViewById(R.id.btn_left);
-        cancelBtn.setOnClickListener(v -> dialog.dismiss());
-
-        TextView acceptBtn = customLayout.findViewById(R.id.btn_right);
-        acceptBtn.setOnClickListener(v -> {
-            if (secondPicker.getValue() != 0) {
-                if (type == OFFENSE_TIME) {
-                    offenseTimeInSecond = secondPicker.getValue();
-                } else {
-                    afterReboundingTimeInSecond = secondPicker.getValue();
-                }
-                showData();
-                enableSaveButtonIfValuesChanged();
-                dialog.dismiss();
-            } else {
-                Toast.makeText(getContext(), "Invalid time", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        dialog.show();
-    }
 
     private void showConfirmationDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-
-        String message = "Wanna save and reset the current scoreboard?";
-        builder.setMessage(message)
-                .setTitle("Warning");
-
-        // Add the buttons
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                saveConfigurations();
-                changeToScoreboardTab();
-            }
-        });
-
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-            }
-        });
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        new CustomAlertDialog.Builder(getContext())
+                .setMessage("Wanna save and reset the current scoreboard?")
+                .setPositiveButton("OK", (dialog, which) -> {
+                    saveConfigurations();
+                    changeToScoreboardTab();
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
     }
 
     private void changeToScoreboardTab() {

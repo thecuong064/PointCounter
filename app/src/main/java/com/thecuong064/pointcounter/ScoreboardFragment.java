@@ -1,11 +1,8 @@
 package com.thecuong064.pointcounter;
 
-import android.content.DialogInterface;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-
-import androidx.appcompat.app.AlertDialog;
 
 import com.thecuong064.pointcounter.base.BaseFragment;
 import com.thecuong064.pointcounter.listener.DoubleClickListener;
@@ -54,8 +51,8 @@ public class ScoreboardFragment extends BaseFragment {
     @BindView(R.id.btn_time_out) TextView timeOutButton;
     @BindView(R.id.btn_reset_points) TextView resetPointsButton;
 
-    private final String HOME_NAME = "HOME_NAME";
-    private final String AWAY_NAME = "AWAY_NAME";
+    private final String HOME_NAME = "HOME";
+    private final String AWAY_NAME = "AWAY";
     private final String PLAY_STATE = "PLAY";
     private final String PAUSE_STATE = "PAUSE";
     private String SHOT_CLOCK_STATE = PAUSE_STATE;
@@ -240,49 +237,23 @@ public class ScoreboardFragment extends BaseFragment {
     }
 
     private void showTimerResetConfirmationDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-
-        String message = "Are you sure you want to reset all timers?";
-        builder.setMessage(message)
-                .setTitle("Warning");
-
-        // Add the buttons
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                stopAndResetTimers();
-            }
-        });
-
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-            }
-        });
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        new CustomAlertDialog.Builder(getContext())
+                .setMessage("Are you sure you want to reset all timers?")
+                .setPositiveButton("OK", (dialog, which) -> {
+                    stopAndResetTimers();
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
     }
 
     private void showPointsResetConfirmationDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-
-        String message = "Are you sure you want to reset all points to 0?";
-        builder.setMessage(message)
-                .setTitle("Warning");
-
-        // Add the buttons
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                resetPoints();
-            }
-        });
-
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-            }
-        });
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        new CustomAlertDialog.Builder(getContext())
+                .setMessage("Are you sure you want to reset all the points to 0?")
+                .setPositiveButton("OK", (dialog, which) -> {
+                    resetPoints();
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
     }
 
     private void resetPoints() {
@@ -452,24 +423,16 @@ public class ScoreboardFragment extends BaseFragment {
     }
 
     private void openDialogEditTeamName(final String team) {
-        // create an alert builder
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Team name");
-        // set the custom layout
         final View customLayout = getLayoutInflater().inflate(R.layout.input_dialog, null);
-        builder.setView(customLayout);
-        // add a button
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // send data from the AlertDialog to the Activity
-                EditText editText = customLayout.findViewById(R.id.editText);
-                changeTeamName(team, editText.getText().toString());
-            }
-        });
-        // create and show the alert dialog
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        new CustomAlertDialog.Builder(getContext())
+                .setMessage(team)
+                .setView(customLayout)
+                .setPositiveButton("OK", (dialog, which) -> {
+                    EditText editText = customLayout.findViewById(R.id.editText);
+                    changeTeamName(team, editText.getText().toString());
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
     }
 
     private void changeTeamName(String team, String newName) {
