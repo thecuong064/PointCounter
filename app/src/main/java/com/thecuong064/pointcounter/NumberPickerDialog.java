@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +31,7 @@ public class NumberPickerDialog extends Dialog {
     private FrameLayout mContainer;
     private TextView mPositiveButton;
     private TextView mNegativeButton;
+    private Context mContext;
 
     public void setTitle(CharSequence title) {
         this.mTitle = title;
@@ -80,11 +83,13 @@ public class NumberPickerDialog extends Dialog {
     public NumberPickerDialog(@NonNull Context context) {
         //super(context, R.style.DialogTranslucentNoTitleWithDim);
         super(context);
+        mContext = context;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.dialog_picker);
         bindView();
         Window dialogWindow = getWindow();
@@ -93,7 +98,7 @@ public class NumberPickerDialog extends Dialog {
         }
         WindowManager.LayoutParams lp = dialogWindow.getAttributes();
         dialogWindow.setGravity(Gravity.CENTER);
-        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
     }
 
@@ -205,5 +210,26 @@ public class NumberPickerDialog extends Dialog {
         public void show() {
             create().show();
         }
+    }
+
+    @Override
+    public void show() {
+        super.show();
+        setLayoutWidthByPercentage();
+    }
+
+    private void setLayoutWidthByPercentage() {
+        WindowManager wm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        display.getMetrics(displayMetrics);
+
+        int displayWidth = displayMetrics.widthPixels;
+        int displayHeight = displayMetrics.heightPixels;
+        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+        layoutParams.copyFrom(getWindow().getAttributes());
+        int dialogWindowWidth = (int) (displayWidth * 0.85f);
+        layoutParams.width = dialogWindowWidth;
+        getWindow().setAttributes(layoutParams);
     }
 }
