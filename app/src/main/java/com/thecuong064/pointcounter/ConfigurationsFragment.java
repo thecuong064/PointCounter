@@ -19,20 +19,31 @@ public class ConfigurationsFragment extends BaseFragment {
     @BindView(R.id.item_offense_time) ConfigurationItemView offenseTimeItem;
     @BindView(R.id.item_after_rebounding_time) ConfigurationItemView afterReboundingTimeItem;
     @BindView(R.id.item_time_out) ConfigurationItemView timeOutItem;
+    @BindView(R.id.item_short_break) ConfigurationItemView shortBreakItem;
+    @BindView(R.id.item_long_break) ConfigurationItemView longBreakItem;
 
     @BindView(R.id.btn_save) TextView saveButton;
 
-    public static String TOTAl_TIME = "total_time";
-    public static String OFFENSE_TIME = "offense_time";
-    public static String AFTER_REBOUNDING_TIME = "after_rebounding_time";
-    public static String TIME_OUT = "time_out";
+    public static final String TOTAl_TIME = "total_time";
+    public static final String OFFENSE_TIME = "offense_time";
+    public static final String AFTER_REBOUNDING_TIME = "after_rebounding_time";
+    public static final String TIME_OUT = "time_out";
+    public static final String SHORT_BREAK = "short_break";
+    public static final String LONG_BREAK = "long_break";
 
     private int totalTimeMinute;
     private int totalTimeSecond;
+
     private int afterReboundingTimeInSecond;
     private int offenseTimeInSecond;
+
     private int timeOutMinute;
     private int timeOutSecond;
+
+    public static int shortBreakMinute;
+    public static int shortBreakSecond;
+    public static int longBreakMinute;
+    public static int longBreakSecond;
 
     @Override
     protected int getContentViewId() {
@@ -68,6 +79,18 @@ public class ConfigurationsFragment extends BaseFragment {
                         59, 0, timeOutSecond)
         );
 
+        shortBreakItem.setOnClickListener(v ->
+                showMinuteAndSecondPickerDialog("Short break", SHORT_BREAK,
+                        20, 0, shortBreakMinute,
+                        59, 0, shortBreakSecond)
+        );
+
+        longBreakItem.setOnClickListener(v ->
+                showMinuteAndSecondPickerDialog("Long break", LONG_BREAK,
+                        20, 0, longBreakMinute,
+                        59, 0, longBreakSecond)
+        );
+
         saveButton.setOnClickListener(v -> showConfirmationDialog());
     }
 
@@ -85,12 +108,25 @@ public class ConfigurationsFragment extends BaseFragment {
                 .setTitle(title)
                 .setPositiveButton("OK", (dialog, which) -> {
                     if (minutePicker.getValue() != 0 || secondPicker.getValue() != 0) {
-                        if (type == TOTAl_TIME) {
-                            totalTimeMinute = minutePicker.getValue();
-                            totalTimeSecond = secondPicker.getValue();
-                        } else {
-                            timeOutMinute = minutePicker.getValue();
-                            timeOutSecond = secondPicker.getValue();
+                        switch (type) {
+                            case ConfigurationsFragment.TOTAl_TIME:
+                                totalTimeMinute = minutePicker.getValue();
+                                totalTimeSecond = secondPicker.getValue();
+                                break;
+                            case TIME_OUT:
+                                timeOutMinute = minutePicker.getValue();
+                                timeOutSecond = secondPicker.getValue();
+                                break;
+                            case SHORT_BREAK:
+                                shortBreakMinute = minutePicker.getValue();
+                                shortBreakSecond = secondPicker.getValue();
+                                break;
+                            case LONG_BREAK:
+                                longBreakMinute = minutePicker.getValue();
+                                longBreakSecond = secondPicker.getValue();
+                                break;
+                            default:
+                                break;
                         }
                         showData();
                         enableSaveButtonIfValuesChanged();
@@ -191,27 +227,50 @@ public class ConfigurationsFragment extends BaseFragment {
 
             ((MainActivity) getActivity()).setConfiguration(MainActivity.millisFromSecond(timeOutSecond),
                     MainActivity.TIME_OUT_SECOND_SAVE_KEY);
+
+            ((MainActivity) getActivity()).setConfiguration(MainActivity.millisFromMinute(shortBreakMinute),
+                    MainActivity.SHORT_BREAK_MINUTE_SAVE_KEY);
+
+            ((MainActivity) getActivity()).setConfiguration(MainActivity.millisFromSecond(shortBreakSecond),
+                    MainActivity.SHORT_BREAK_SEC_SAVE_KEY);
+
+            ((MainActivity) getActivity()).setConfiguration(MainActivity.millisFromMinute(longBreakMinute),
+                    MainActivity.LONG_BREAK_MINUTE_SAVE_KEY);
+
+            ((MainActivity) getActivity()).setConfiguration(MainActivity.millisFromSecond(longBreakSecond),
+                    MainActivity.LONG_BREAK_SEC_SAVE_KEY);
         }
     }
 
     public void initAndShowData() {
         saveButton.setEnabled(false);
+
         totalTimeMinute = MainActivity.totalTimeMinute;
         totalTimeSecond = MainActivity.totalTimeSecond;
+
         offenseTimeInSecond = MainActivity.offenseTimeInSecond;
         afterReboundingTimeInSecond = MainActivity.afterReboundingTimeInSecond;
+
         timeOutMinute = MainActivity.timeOutMinute;
         timeOutSecond = MainActivity.timeOutSecond;
+
+        shortBreakMinute = MainActivity.shortBreakMinute;
+        shortBreakSecond = MainActivity.shortBreakSecond;
+        longBreakMinute = MainActivity.longBreakMinute;
+        longBreakSecond = MainActivity.longBreakSecond;
+
         showData();
     }
 
     private void enableSaveButtonIfValuesChanged() {
-        if (totalTimeMinute != MainActivity.totalTimeMinute ||
-                totalTimeSecond != MainActivity.totalTimeSecond ||
-                offenseTimeInSecond != MainActivity.offenseTimeInSecond ||
-                afterReboundingTimeInSecond != MainActivity.afterReboundingTimeInSecond ||
-                timeOutMinute != MainActivity.timeOutMinute ||
-                timeOutSecond != MainActivity.timeOutSecond) {
+        if (totalTimeMinute != MainActivity.totalTimeMinute
+                || totalTimeSecond != MainActivity.totalTimeSecond
+                || offenseTimeInSecond != MainActivity.offenseTimeInSecond
+                || afterReboundingTimeInSecond != MainActivity.afterReboundingTimeInSecond
+                || timeOutMinute != MainActivity.timeOutMinute
+                || timeOutSecond != MainActivity.timeOutSecond
+                || shortBreakMinute != MainActivity.shortBreakMinute
+                || shortBreakSecond != MainActivity.shortBreakSecond) {
             saveButton.setEnabled(true);
         } else {
             saveButton.setEnabled(false);
@@ -223,6 +282,8 @@ public class ConfigurationsFragment extends BaseFragment {
         offenseTimeItem.setContent(offenseTimeInSecond + " secs");
         afterReboundingTimeItem.setContent(afterReboundingTimeInSecond + " secs");
         timeOutItem.setContent(timeOutMinute + " mins " + timeOutSecond + " secs");
+        shortBreakItem.setContent(shortBreakMinute + " mins " + shortBreakSecond + " secs");
+        longBreakItem.setContent(longBreakMinute + " mins " + longBreakSecond + " secs");
     }
 
 }

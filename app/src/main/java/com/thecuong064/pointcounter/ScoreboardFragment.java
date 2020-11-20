@@ -50,6 +50,8 @@ public class ScoreboardFragment extends BaseFragment {
     @BindView(R.id.shot_clock_long) TextView longShotClockButton;
     @BindView(R.id.btn_time_out) TextView timeOutButton;
     @BindView(R.id.btn_reset_points) TextView resetPointsButton;
+    @BindView(R.id.btn_short_break) TextView shortBreakButton;
+    @BindView(R.id.btn_long_break) TextView longBreakButton;
 
     private final String HOME_NAME = "HOME";
     private final String AWAY_NAME = "AWAY";
@@ -57,15 +59,18 @@ public class ScoreboardFragment extends BaseFragment {
     private final String PAUSE_STATE = "PAUSE";
     private String SHOT_CLOCK_STATE = PAUSE_STATE;
     private String TIME_OUT_STATE = PAUSE_STATE;
+    private String SHORT_BREAK_STATE = PAUSE_STATE;
+    private String LONG_BREAK_STATE = PAUSE_STATE;
 
     List<View> homeFoulsViews = new ArrayList<>();
     List<View> awayFoulsViews = new ArrayList<>();
 
     int homePointValue, awayPointValue;
     int homeFoulCount, awayFoulCount;
-    long totalMillis, shotClockMillis, timeOutMillis;
+    long totalMillis, shotClockMillis, timeOutMillis, shortBreakMillis, longBreakMillis;
 
     MyCountDownTimer totalCountDownTimer, shotClockCountDownTimer, timeOutCountDownTimer;
+    MyCountDownTimer shortBreakCountDownTimer, longBreakCountDownTimer;
 
     @Override
     protected int getContentViewId() {
@@ -91,6 +96,8 @@ public class ScoreboardFragment extends BaseFragment {
         initTotalTimer();
         initShotClockTimer(MainActivity.offenseTimeInSecond);
         initTimeOutTimer();
+        initShortBreakTimer();
+        initLongBreakTimer();
         playPauseButton.setText(PLAY_STATE);
     }
 
@@ -153,6 +160,48 @@ public class ScoreboardFragment extends BaseFragment {
             public void onFinish() {
                 shotClockTimeTextView.setText("00 : 00");
                 playStopTimeOutTimer();
+            }
+        });
+    }
+
+    private void initShortBreakTimer() {
+        stopShortBreakTimer();
+        SHORT_BREAK_STATE = PAUSE_STATE;
+        shortBreakMillis = MainActivity.millisFromMinute(MainActivity.shortBreakMinute)
+                + MainActivity.millisFromSecond(MainActivity.shortBreakSecond);
+        shortBreakCountDownTimer = new MyCountDownTimer(shortBreakMillis);
+        shortBreakCountDownTimer.setOnTickListener(new TimerListener() {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                String currentTime = getMinuteSecondTimeStringFromMillis(millisUntilFinished);
+                shotClockTimeTextView.setText(currentTime);
+            }
+
+            @Override
+            public void onFinish() {
+                shotClockTimeTextView.setText("00 : 00");
+                playStopShortBreakTimer();
+            }
+        });
+    }
+    
+    private void initLongBreakTimer() {
+        stopLongBreakTimer();
+        LONG_BREAK_STATE = PAUSE_STATE;
+        longBreakMillis = MainActivity.millisFromMinute(MainActivity.longBreakMinute)
+                + MainActivity.millisFromSecond(MainActivity.longBreakSecond);
+        longBreakCountDownTimer = new MyCountDownTimer(longBreakMillis);
+        longBreakCountDownTimer.setOnTickListener(new TimerListener() {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                String currentTime = getMinuteSecondTimeStringFromMillis(millisUntilFinished);
+                shotClockTimeTextView.setText(currentTime);
+            }
+
+            @Override
+            public void onFinish() {
+                shotClockTimeTextView.setText("00 : 00");
+                playStopLongBreakTimer();
             }
         });
     }
@@ -234,6 +283,9 @@ public class ScoreboardFragment extends BaseFragment {
 
         timeOutButton.setOnClickListener(v -> playStopTimeOutTimer());
         resetPointsButton.setOnClickListener(v -> showPointsResetConfirmationDialog());
+
+        shortBreakButton.setOnClickListener(v -> playStopShortBreakTimer());
+        longBreakButton.setOnClickListener(v -> playStopLongBreakTimer());
     }
 
     private void showTimerResetConfirmationDialog() {
@@ -320,8 +372,8 @@ public class ScoreboardFragment extends BaseFragment {
         if (TIME_OUT_STATE.equals(PAUSE_STATE)) {
             pauseTotalTimer();
             stopShotClockTimer();
-            disableButtonsWhenTimingOut();
             playTimeOutTimer();
+            disableButtonsWhenTimingOut();
             timeOutButton.setActivated(true);
         } else {
             timeOutButton.setActivated(false);
@@ -358,6 +410,68 @@ public class ScoreboardFragment extends BaseFragment {
         }
     }
 
+    private void playShortBreakTimer() {
+        if (shortBreakCountDownTimer != null) {
+            shortBreakCountDownTimer.play();
+            SHORT_BREAK_STATE = PLAY_STATE;
+        }
+    }
+
+    private void stopShortBreakTimer() {
+        if (shortBreakCountDownTimer != null) {
+            shortBreakCountDownTimer.stop();
+            SHORT_BREAK_STATE = PAUSE_STATE;
+        }
+    }
+
+    private void playStopShortBreakTimer() {
+        // TODO: change the state to enum
+        if (SHORT_BREAK_STATE.equals(PAUSE_STATE)) {
+            pauseTotalTimer();
+            stopShotClockTimer();
+            playShortBreakTimer();
+            disableButtonsWhenTimingOut();
+            shortBreakButton.setActivated(true);
+        } else {
+            shortBreakButton.setActivated(false);
+            stopShortBreakTimer();
+            initShortBreakTimer();
+            initShotClockTimer(MainActivity.offenseTimeInSecond);
+            enableButtonsAfterTimingOut();
+        }
+    }
+
+    private void playLongBreakTimer() {
+        if (longBreakCountDownTimer != null) {
+            longBreakCountDownTimer.play();
+            LONG_BREAK_STATE = PLAY_STATE;
+        }
+    }
+
+    private void stopLongBreakTimer() {
+        if (longBreakCountDownTimer != null) {
+            longBreakCountDownTimer.stop();
+            LONG_BREAK_STATE = PAUSE_STATE;
+        }
+    }
+
+    private void playStopLongBreakTimer() {
+        // TODO: change the state to enum
+        if (LONG_BREAK_STATE.equals(PAUSE_STATE)) {
+            pauseTotalTimer();
+            stopShotClockTimer();
+            playLongBreakTimer();
+            disableButtonsWhenTimingOut();
+            longBreakButton.setActivated(true);
+        } else {
+            longBreakButton.setActivated(false);
+            stopLongBreakTimer();
+            initLongBreakTimer();
+            initShotClockTimer(MainActivity.offenseTimeInSecond);
+            enableButtonsAfterTimingOut();
+        }
+    }
+
     private void disableButtonsWhenTimingOut() {
         homePointIncButton.setEnabled(false);
         homePointDecButton.setEnabled(false);
@@ -370,6 +484,9 @@ public class ScoreboardFragment extends BaseFragment {
         shortShotClockButton.setEnabled(false);
         longShotClockButton.setEnabled(false);
         resetPointsButton.setEnabled(false);
+        timeOutButton.setEnabled(TIME_OUT_STATE.equals(PLAY_STATE));
+        shortBreakButton.setEnabled(SHORT_BREAK_STATE.equals(PLAY_STATE));
+        longBreakButton.setEnabled(LONG_BREAK_STATE.equals(PLAY_STATE));
     }
 
     private void enableButtonsAfterTimingOut() {
@@ -384,6 +501,9 @@ public class ScoreboardFragment extends BaseFragment {
         shortShotClockButton.setEnabled(true);
         longShotClockButton.setEnabled(true);
         resetPointsButton.setEnabled(true);
+        timeOutButton.setEnabled(true);
+        shortBreakButton.setEnabled(true);
+        longBreakButton.setEnabled(true);
     }
 
     public void stopAndResetTimers() {

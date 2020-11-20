@@ -30,6 +30,10 @@ public class MainActivity extends BaseActivity {
     public static String AFTER_REBOUNDING_TIME_SAVE_KEY = "after_rebounding_time";
     public static String TIME_OUT_MINUTE_SAVE_KEY = "time_out_minute";
     public static String TIME_OUT_SECOND_SAVE_KEY = "time_out_second";
+    public static String SHORT_BREAK_MINUTE_SAVE_KEY = "short_break_minute";
+    public static String SHORT_BREAK_SEC_SAVE_KEY = "short_break_second";
+    public static String LONG_BREAK_MINUTE_SAVE_KEY = "long_break_minute";
+    public static String LONG_BREAK_SEC_SAVE_KEY = "long_break_second";
 
     public static final int DEFAULT_TOTAL_TIME_MIN = 12 * 60 * 1000;
     public static final int DEFAULT_TOTAL_TIME_SEC = 0;
@@ -38,12 +42,21 @@ public class MainActivity extends BaseActivity {
     public static final int DEFAULT_TIME_OUT_MIN = 1 * 60 * 1000;
     public static final int DEFAULT_TIME_OUT_SEC= 0;
 
+    public static final int DEFAULT_SHORT_BREAK_MIN = 2 * 60 * 1000;
+    public static final int DEFAULT_SHORT_BREAK_SEC = 0;
+    public static final int DEFAULT_LONG_BREAK_MIN = 5 * 60 * 1000;
+    public static final int DEFAULT_LONG_BREAK_SEC = 0;
+
     public static int totalTimeMinute;
     public static int totalTimeSecond;
     public static int afterReboundingTimeInSecond;
     public static int offenseTimeInSecond;
     public static int timeOutMinute;
     public static int timeOutSecond;
+    public static int shortBreakMinute;
+    public static int shortBreakSecond;
+    public static int longBreakMinute;
+    public static int longBreakSecond;
 
     public static final int SCOREBOARD_TAB_INDEX = 0;
     public static final int CONFIGURATIONS_TAB_INDEX = 1;
@@ -78,16 +91,29 @@ public class MainActivity extends BaseActivity {
 
     public void getConfigurations() {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+
         totalTimeMinute = minuteFromMillis(pref.getLong(TOTAl_TIME_MINUTE_SAVE_KEY, DEFAULT_TOTAL_TIME_MIN));
         totalTimeSecond = secondFromMillis(pref.getLong(TOTAl_TIME_SECOND_SAVE_KEY, DEFAULT_TOTAL_TIME_SEC));
+
         afterReboundingTimeInSecond = secondFromMillis(pref.getLong(AFTER_REBOUNDING_TIME_SAVE_KEY,
                 DEFAULT_SHORT_SHOT_CLOCK_TIME));
         offenseTimeInSecond = secondFromMillis(pref.getLong(OFFENSE_TIME_SAVE_KEY,
                 DEFAULT_LONG_SHOT_CLOCK_TIME));
+
         timeOutMinute = minuteFromMillis(pref.getLong(TIME_OUT_MINUTE_SAVE_KEY,
                 DEFAULT_TIME_OUT_MIN));
         timeOutSecond = secondFromMillis(pref.getLong(TIME_OUT_SECOND_SAVE_KEY,
                 DEFAULT_TIME_OUT_SEC));
+
+        shortBreakMinute = minuteFromMillis(pref.getLong(SHORT_BREAK_MINUTE_SAVE_KEY,
+                DEFAULT_SHORT_BREAK_MIN));
+        shortBreakSecond = secondFromMillis(pref.getLong(SHORT_BREAK_SEC_SAVE_KEY,
+                DEFAULT_SHORT_BREAK_SEC));
+
+        longBreakMinute = minuteFromMillis(pref.getLong(LONG_BREAK_MINUTE_SAVE_KEY,
+                DEFAULT_LONG_BREAK_MIN));
+        longBreakSecond = secondFromMillis(pref.getLong(LONG_BREAK_SEC_SAVE_KEY,
+                DEFAULT_LONG_BREAK_SEC));
     }
 
     private void initBottomTab() {

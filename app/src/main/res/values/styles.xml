@@ -8,6 +8,11 @@
         <item name="android:windowBackground">@color/windowBackground</item>
     </style>
 
+    <style name="NumberPickerDialogTheme">
+        <item name="android:layout_marginStart">0dp</item>
+        <item name="android:layout_marginEnd">0dp</item>
+    </style>
+
     <style name="AnimatedButton">
         <item name="android:background">@drawable/scoreboard_btn_bg</item>
         <item name="android:textColor">@drawable/scoreboard_btn_text_color</item>
@@ -24,6 +29,11 @@
         <item name="android:textSize">12sp</item>
         <item name="android:gravity">center</item>
     </style>
+
+    <style name="AnimatedButton.ScoreboardTimer.Breaks">
+        <item name="android:textSize">10sp</item>
+    </style>
+
     <style name="AnimatedButton.ScoreboardTimer.Danger">
         <item name="android:background">@drawable/scoreboard_btn_bg_danger</item>
         <item name="android:textSize">10sp</item>
