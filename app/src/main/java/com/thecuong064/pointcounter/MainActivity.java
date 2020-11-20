@@ -123,7 +123,7 @@ public class MainActivity extends BaseActivity {
         fragmentList.put(SCOREBOARD_TAB_INDEX, new WeakReference<>(scoreboardFragment));
         fragmentList.put(CONFIGURATIONS_TAB_INDEX, new WeakReference<>(configurationsFragment));
 
-        viewPager.setAdapter(new MainAdapter(getSupportFragmentManager(),
+        viewPager.setAdapter(new MainBottomTabAdapter(getSupportFragmentManager(),
                 FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, fragmentList));
 
         viewPager.setOffscreenPageLimit(2);

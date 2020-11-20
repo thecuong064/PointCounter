@@ -5,6 +5,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.thecuong064.pointcounter.base.BaseFragment;
+import com.thecuong064.pointcounter.dialog.CustomAlertDialog;
 import com.thecuong064.pointcounter.listener.DoubleClickListener;
 import com.thecuong064.pointcounter.listener.TimerListener;
 import com.thecuong064.pointcounter.timer.MyCountDownTimer;

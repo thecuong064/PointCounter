@@ -9,11 +9,11 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 import java.lang.ref.WeakReference;
 
-public class MainAdapter extends FragmentPagerAdapter {
+public class MainBottomTabAdapter extends FragmentPagerAdapter {
 
     private SparseArray<WeakReference<Fragment>> fragmentList;
 
-    public MainAdapter(@NonNull FragmentManager fm, int behavior, SparseArray<WeakReference<Fragment>> fragmentList) {
+    public MainBottomTabAdapter(@NonNull FragmentManager fm, int behavior, SparseArray<WeakReference<Fragment>> fragmentList) {
         super(fm, behavior);
         this.fragmentList = fragmentList;
     }

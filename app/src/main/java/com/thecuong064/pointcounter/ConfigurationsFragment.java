@@ -5,9 +5,9 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AlertDialog;
-
 import com.thecuong064.pointcounter.base.BaseFragment;
+import com.thecuong064.pointcounter.dialog.CustomAlertDialog;
+import com.thecuong064.pointcounter.dialog.NumberPickerDialog;
 import com.thecuong064.pointcounter.widget.ConfigurationItemView;
 import com.thecuong064.pointcounter.widget.CustomNumberPicker;
 

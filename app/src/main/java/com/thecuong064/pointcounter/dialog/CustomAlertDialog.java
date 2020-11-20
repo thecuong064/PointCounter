@@ -1,4 +1,4 @@
-package com.thecuong064.pointcounter;
+package com.thecuong064.pointcounter.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -15,6 +15,8 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+
+import com.thecuong064.pointcounter.R;
 
 public class CustomAlertDialog extends Dialog {
 
