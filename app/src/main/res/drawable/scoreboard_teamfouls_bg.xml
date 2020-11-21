@@ -2,6 +2,6 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:state_enabled="true"
-        android:drawable="@drawable/bg_stroke_2_solid_d5b51c"/>
-    <item android:drawable="@drawable/bg_stroke_05_solid_555450" />
+        android:drawable="@drawable/bg_teamfouls_enabled"/>
+    <item android:drawable="@drawable/bg_teamfouls_default" />
 </selector>

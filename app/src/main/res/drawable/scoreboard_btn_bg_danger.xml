@@ -2,12 +2,12 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:state_pressed="true"
-        android:drawable="@drawable/btn_bg_c5ba16_corner_4dp"/>
+        android:drawable="@drawable/btn_bg_pressed"/>
     <item
         android:state_activated="true"
-        android:drawable="@drawable/btn_bg_c5ba16_corner_4dp"/>
+        android:drawable="@drawable/btn_bg_activated"/>
     <item
         android:state_enabled="true"
-        android:drawable="@drawable/btn_bg_d30f04_corner_4dp"/>
-    <item android:drawable="@drawable/btn_bg_282942_corner_4dp" />
+        android:drawable="@drawable/btn_danger_bg_enabled"/>
+    <item android:drawable="@drawable/btn_bg_default" />
 </selector>

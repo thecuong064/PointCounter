@@ -374,14 +374,14 @@ public class ScoreboardFragment extends BaseFragment {
             pauseTotalTimer();
             stopShotClockTimer();
             playTimeOutTimer();
-            disableButtonsWhenTimingOut();
+            disableScoreboardLayout();
             timeOutButton.setActivated(true);
         } else {
             timeOutButton.setActivated(false);
             stopTimeOutTimer();
             initTimeOutTimer();
             initShotClockTimer(MainActivity.offenseTimeInSecond);
-            enableButtonsAfterTimingOut();
+            enableScoreboardLayout();
         }
     }
 
@@ -431,14 +431,14 @@ public class ScoreboardFragment extends BaseFragment {
             pauseTotalTimer();
             stopShotClockTimer();
             playShortBreakTimer();
-            disableButtonsWhenTimingOut();
+            disableScoreboardLayout();
             shortBreakButton.setActivated(true);
         } else {
             shortBreakButton.setActivated(false);
             stopShortBreakTimer();
             initShortBreakTimer();
             initShotClockTimer(MainActivity.offenseTimeInSecond);
-            enableButtonsAfterTimingOut();
+            enableScoreboardLayout();
         }
     }
 
@@ -462,18 +462,19 @@ public class ScoreboardFragment extends BaseFragment {
             pauseTotalTimer();
             stopShotClockTimer();
             playLongBreakTimer();
-            disableButtonsWhenTimingOut();
+            disableScoreboardLayout();
             longBreakButton.setActivated(true);
         } else {
             longBreakButton.setActivated(false);
             stopLongBreakTimer();
             initLongBreakTimer();
             initShotClockTimer(MainActivity.offenseTimeInSecond);
-            enableButtonsAfterTimingOut();
+            enableScoreboardLayout();
         }
     }
 
-    private void disableButtonsWhenTimingOut() {
+    private void disableScoreboardLayout() {
+        shotClockTimeTextView.setActivated(true);
         homePointIncButton.setEnabled(false);
         homePointDecButton.setEnabled(false);
         awayPointIncButton.setEnabled(false);
@@ -490,7 +491,8 @@ public class ScoreboardFragment extends BaseFragment {
         longBreakButton.setEnabled(LONG_BREAK_STATE.equals(PLAY_STATE));
     }
 
-    private void enableButtonsAfterTimingOut() {
+    private void enableScoreboardLayout() {
+        shotClockTimeTextView.setActivated(false);
         homePointIncButton.setEnabled(true);
         homePointDecButton.setEnabled(true);
         awayPointIncButton.setEnabled(true);

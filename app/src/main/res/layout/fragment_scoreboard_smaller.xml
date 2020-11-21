@@ -232,9 +232,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            tools:text="24"
-            android:textColor="#fff000"
-            android:textSize="50sp" />
+            style="@style/ShotClockTextView"
+            tools:text="24"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -242,7 +241,7 @@
             android:layout_marginTop="25dp"
             android:padding="10dp"
             android:orientation="vertical"
-            android:background="@drawable/bg_stroke_05_solid_8f8865">
+            android:background="@drawable/bg_stroke_555450_05px">
 
             <LinearLayout
                 android:layout_width="match_parent"

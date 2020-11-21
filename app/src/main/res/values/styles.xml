@@ -75,4 +75,11 @@
 
     <style name="PickerButton.Right">
     </style>
+
+    <style name="ShotClockTextView">
+        <item name="android:background">@drawable/scoreboard_shotclock_bg</item>
+        <item name="android:textColor">@drawable/scoreboard_shotclock_text_color</item>
+        <item name="android:textSize">50sp</item>
+    </style>
+
 </resources>
