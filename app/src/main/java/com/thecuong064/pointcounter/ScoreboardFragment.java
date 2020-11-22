@@ -541,11 +541,14 @@ public class ScoreboardFragment extends BaseFragment {
     }
 
     private void updatePoints() {
+
         // --------------------HOME--------------
         homePointTextView.setText(homePointValue + "");
+        homePointDecButton.setEnabled(homePointValue > 0);
 
         // --------------------AWAY--------------
         awayPointTextView.setText(awayPointValue + "");
+        awayPointDecButton.setEnabled(awayPointValue > 0);
     }
 
     private void openDialogEditTeamName(final String team) {
