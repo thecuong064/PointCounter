@@ -5,6 +5,7 @@ import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -71,6 +72,16 @@ public class ConfigurationItemView extends RelativeLayout {
 
     public CharSequence getContent() {
         return mContentTv.getText();
+    }
+
+    public void setSwitchState(boolean state) {
+        mContentSwitch.setChecked(state);
+    }
+
+    public void setSwitchOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener listener) {
+        if (mContentSwitch != null) {
+            mContentSwitch.setOnCheckedChangeListener(listener);
+        }
     }
 
     @Override

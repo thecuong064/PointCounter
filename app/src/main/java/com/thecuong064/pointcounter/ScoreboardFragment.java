@@ -106,19 +106,21 @@ public class ScoreboardFragment extends BaseFragment {
         stopShotClockTimer();
         SHOT_CLOCK_STATE = PAUSE_STATE;
         shotClockMillis = MainActivity.millisFromSecond(timeInSeconds);
-        shotClockTimeTextView.setText(getSecondStringFromMillis(shotClockMillis));
+        shotClockTimeTextView.setText(getSecondTimeStringFromMillis(shotClockMillis, 10));
         shotClockCountDownTimer = new MyCountDownTimer(shotClockMillis);
         shotClockCountDownTimer.setOnTickListener(new TimerListener() {
             @Override
             public void onTick(long millisUntilFinished) {
-                String currentTime = getSecondStringFromMillis(millisUntilFinished);
+                String currentTime = getSecondTimeStringFromMillis(millisUntilFinished, 10);
                 shotClockTimeTextView.setText(currentTime);
             }
 
             @Override
             public void onFinish() {
                 shotClockTimeTextView.setText("0.0");
-                pauseTotalTimer();
+                if (MainActivity.isGameClockStoppedWhenShotClockExpires) {
+                    pauseTotalTimer();
+                }
                 initShotClockTimer(MainActivity.offenseTimeInSecond);
             }
         });
@@ -128,12 +130,12 @@ public class ScoreboardFragment extends BaseFragment {
         stopTotalTimer();
         totalMillis = MainActivity.millisFromMinute(MainActivity.totalTimeMinute)
                     + MainActivity.millisFromSecond(MainActivity.totalTimeSecond);
-        totalTimeTextView.setText(getMinuteSecondTimeStringFromMillis(totalMillis));
+        totalTimeTextView.setText(getMinuteSecondTimeStringFromMillis(totalMillis, 59));
         totalCountDownTimer = new MyCountDownTimer(totalMillis);
         totalCountDownTimer.setOnTickListener(new TimerListener() {
             @Override
             public void onTick(long millisUntilFinished) {
-                String currentTime = getMinuteSecondTimeStringFromMillis(millisUntilFinished);
+                String currentTime = getMinuteSecondTimeStringFromMillis(millisUntilFinished, 59);
                 totalTimeTextView.setText(currentTime);
             }
 
@@ -153,7 +155,7 @@ public class ScoreboardFragment extends BaseFragment {
         timeOutCountDownTimer.setOnTickListener(new TimerListener() {
             @Override
             public void onTick(long millisUntilFinished) {
-                String currentTime = getMinuteSecondTimeStringFromMillis(millisUntilFinished);
+                String currentTime = getMinuteSecondTimeStringFromMillis(millisUntilFinished, 15);
                 shotClockTimeTextView.setText(currentTime);
             }
 
@@ -174,7 +176,7 @@ public class ScoreboardFragment extends BaseFragment {
         shortBreakCountDownTimer.setOnTickListener(new TimerListener() {
             @Override
             public void onTick(long millisUntilFinished) {
-                String currentTime = getMinuteSecondTimeStringFromMillis(millisUntilFinished);
+                String currentTime = getMinuteSecondTimeStringFromMillis(millisUntilFinished, 15);
                 shotClockTimeTextView.setText(currentTime);
             }
 
@@ -195,7 +197,7 @@ public class ScoreboardFragment extends BaseFragment {
         longBreakCountDownTimer.setOnTickListener(new TimerListener() {
             @Override
             public void onTick(long millisUntilFinished) {
-                String currentTime = getMinuteSecondTimeStringFromMillis(millisUntilFinished);
+                String currentTime = getMinuteSecondTimeStringFromMillis(millisUntilFinished, 15);
                 shotClockTimeTextView.setText(currentTime);
             }
 
@@ -207,17 +209,16 @@ public class ScoreboardFragment extends BaseFragment {
         });
     }
 
-    private String getSecondStringFromMillis(long millisUntilFinished) {
+    private String getSecondTimeStringFromMillis(long millisUntilFinished, int secondToDisplayDecimalPlaces) {
         long timeInSeconds = millisUntilFinished/1000;
         long seconds = timeInSeconds%60 + (timeInSeconds/60)*60;
-        if (seconds > 7) {
-            return getNumberStringWithTwoDigit(seconds);
-        }
         long tick = (millisUntilFinished - seconds*1000)/100;
-        return getNumberStringWithTwoDigit(seconds) + "." + tick;
+        return seconds <= secondToDisplayDecimalPlaces
+                ? getNumberStringWithTwoDigit(seconds) + "." + tick
+                : getNumberStringWithTwoDigit(seconds);
     }
 
-    private String getMinuteSecondTimeStringFromMillis(long millisUntilFinished) {
+    private String getMinuteSecondTimeStringFromMillis(long millisUntilFinished, int secondToDisplayDecimalPlaces) {
         long timeInSeconds = millisUntilFinished/1000;
         long seconds = timeInSeconds%60;
         long minutes = timeInSeconds/60;
@@ -225,7 +226,9 @@ public class ScoreboardFragment extends BaseFragment {
         String minuteStr = getNumberStringWithTwoDigit(minutes);
         if (minutes == 0) {
             long tick = (millisUntilFinished - seconds*1000)/100;
-            return getNumberStringWithTwoDigit(seconds) + "." + tick;
+            return seconds <= secondToDisplayDecimalPlaces
+                    ? getNumberStringWithTwoDigit(seconds) + "." + tick
+                    : getNumberStringWithTwoDigit(seconds);
         }
         return minuteStr + " : " + secondStr;
     }

@@ -34,18 +34,21 @@ public class MainActivity extends BaseActivity {
     public static String SHORT_BREAK_SEC_SAVE_KEY = "short_break_second";
     public static String LONG_BREAK_MINUTE_SAVE_KEY = "long_break_minute";
     public static String LONG_BREAK_SEC_SAVE_KEY = "long_break_second";
+    public static String SHOT_CLOCK_VIOLATION_KEY = "shot_clock_violation";
 
     public static final int DEFAULT_TOTAL_TIME_MIN = 12 * 60 * 1000;
     public static final int DEFAULT_TOTAL_TIME_SEC = 0;
     public static final int DEFAULT_SHORT_SHOT_CLOCK_TIME = 14 * 1000;
     public static final int DEFAULT_LONG_SHOT_CLOCK_TIME = 24 * 1000;
     public static final int DEFAULT_TIME_OUT_MIN = 1 * 60 * 1000;
-    public static final int DEFAULT_TIME_OUT_SEC= 0;
+    public static final int DEFAULT_TIME_OUT_SEC = 0;
 
     public static final int DEFAULT_SHORT_BREAK_MIN = 2 * 60 * 1000;
     public static final int DEFAULT_SHORT_BREAK_SEC = 0;
     public static final int DEFAULT_LONG_BREAK_MIN = 5 * 60 * 1000;
     public static final int DEFAULT_LONG_BREAK_SEC = 0;
+
+    public static final boolean DEFAULT_STOPPING_OPTION_SHOT_CLOCK_VIOLATION = true;
 
     public static int totalTimeMinute;
     public static int totalTimeSecond;
@@ -57,6 +60,7 @@ public class MainActivity extends BaseActivity {
     public static int shortBreakSecond;
     public static int longBreakMinute;
     public static int longBreakSecond;
+    public static boolean isGameClockStoppedWhenShotClockExpires;
 
     public static final int SCOREBOARD_TAB_INDEX = 0;
     public static final int CONFIGURATIONS_TAB_INDEX = 1;
@@ -89,6 +93,15 @@ public class MainActivity extends BaseActivity {
         scoreboardFragment.stopAndResetTimers();
     }
 
+    public void setConfiguration(boolean newValue, String save_key) {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putBoolean(save_key, newValue);
+        editor.apply();
+        getConfigurations();
+        scoreboardFragment.stopAndResetTimers();
+    }
+
     public void getConfigurations() {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -114,6 +127,9 @@ public class MainActivity extends BaseActivity {
                 DEFAULT_LONG_BREAK_MIN));
         longBreakSecond = secondFromMillis(pref.getLong(LONG_BREAK_SEC_SAVE_KEY,
                 DEFAULT_LONG_BREAK_SEC));
+
+        isGameClockStoppedWhenShotClockExpires = pref.getBoolean(SHOT_CLOCK_VIOLATION_KEY,
+                DEFAULT_STOPPING_OPTION_SHOT_CLOCK_VIOLATION);
     }
 
     private void initBottomTab() {

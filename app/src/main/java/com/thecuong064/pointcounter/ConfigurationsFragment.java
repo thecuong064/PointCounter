@@ -1,6 +1,7 @@
 package com.thecuong064.pointcounter;
 
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,6 +22,7 @@ public class ConfigurationsFragment extends BaseFragment {
     @BindView(R.id.item_time_out) ConfigurationItemView timeOutItem;
     @BindView(R.id.item_short_break) ConfigurationItemView shortBreakItem;
     @BindView(R.id.item_long_break) ConfigurationItemView longBreakItem;
+    @BindView(R.id.item_shot_clock_violation) ConfigurationItemView shotClockViolationItem;
 
     @BindView(R.id.btn_save) TextView saveButton;
 
@@ -40,10 +42,12 @@ public class ConfigurationsFragment extends BaseFragment {
     private int timeOutMinute;
     private int timeOutSecond;
 
-    public static int shortBreakMinute;
-    public static int shortBreakSecond;
-    public static int longBreakMinute;
-    public static int longBreakSecond;
+    public int shortBreakMinute;
+    public int shortBreakSecond;
+    public int longBreakMinute;
+    public int longBreakSecond;
+
+    public boolean isGameClockStoppedWhenShotClockExpires;
 
     @Override
     protected int getContentViewId() {
@@ -90,6 +94,11 @@ public class ConfigurationsFragment extends BaseFragment {
                         20, 0, longBreakMinute,
                         59, 0, longBreakSecond)
         );
+
+        shotClockViolationItem.setSwitchOnCheckedChangeListener((buttonView, isChecked) -> {
+            isGameClockStoppedWhenShotClockExpires = isChecked;
+            enableSaveButtonIfValuesChanged();
+        });
 
         saveButton.setOnClickListener(v -> showConfirmationDialog());
     }
@@ -239,6 +248,9 @@ public class ConfigurationsFragment extends BaseFragment {
 
             ((MainActivity) getActivity()).setConfiguration(MainActivity.millisFromSecond(longBreakSecond),
                     MainActivity.LONG_BREAK_SEC_SAVE_KEY);
+
+            ((MainActivity) getActivity()).setConfiguration(isGameClockStoppedWhenShotClockExpires,
+                    MainActivity.SHOT_CLOCK_VIOLATION_KEY);
         }
     }
 
@@ -259,22 +271,21 @@ public class ConfigurationsFragment extends BaseFragment {
         longBreakMinute = MainActivity.longBreakMinute;
         longBreakSecond = MainActivity.longBreakSecond;
 
+        isGameClockStoppedWhenShotClockExpires = MainActivity.isGameClockStoppedWhenShotClockExpires;
+
         showData();
     }
 
     private void enableSaveButtonIfValuesChanged() {
-        if (totalTimeMinute != MainActivity.totalTimeMinute
+        saveButton.setEnabled(totalTimeMinute != MainActivity.totalTimeMinute
                 || totalTimeSecond != MainActivity.totalTimeSecond
                 || offenseTimeInSecond != MainActivity.offenseTimeInSecond
                 || afterReboundTimeInSecond != MainActivity.afterReboundTimeInSecond
                 || timeOutMinute != MainActivity.timeOutMinute
                 || timeOutSecond != MainActivity.timeOutSecond
                 || shortBreakMinute != MainActivity.shortBreakMinute
-                || shortBreakSecond != MainActivity.shortBreakSecond) {
-            saveButton.setEnabled(true);
-        } else {
-            saveButton.setEnabled(false);
-        }
+                || shortBreakSecond != MainActivity.shortBreakSecond
+                || isGameClockStoppedWhenShotClockExpires != MainActivity.isGameClockStoppedWhenShotClockExpires);
     }
 
     private void showData() {
@@ -283,7 +294,7 @@ public class ConfigurationsFragment extends BaseFragment {
         afterReboundTimeItem.setContent(afterReboundTimeInSecond + " secs");
         timeOutItem.setContent(timeOutMinute + " mins " + timeOutSecond + " secs");
         shortBreakItem.setContent(shortBreakMinute + " mins " + shortBreakSecond + " secs");
-        longBreakItem.setContent(longBreakMinute + " mins " + longBreakSecond + " secs");
+        shotClockViolationItem.setSwitchState(isGameClockStoppedWhenShotClockExpires);
     }
 
 }
