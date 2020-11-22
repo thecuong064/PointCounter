@@ -92,7 +92,7 @@ public class ScoreboardFragment extends BaseFragment {
     }
 
     public void initTimersView() {
-        shortShotClockButton.setText(MainActivity.afterReboundingTimeInSecond + "");
+        shortShotClockButton.setText(MainActivity.afterReboundTimeInSecond + "");
         longShotClockButton.setText(MainActivity.offenseTimeInSecond + "");
         initTotalTimer();
         initShotClockTimer(MainActivity.offenseTimeInSecond);
@@ -279,7 +279,7 @@ public class ScoreboardFragment extends BaseFragment {
 
         stopButton.setOnClickListener(v -> showTimerResetConfirmationDialog());
 
-        shortShotClockButton.setOnClickListener(v -> resetShotClock(MainActivity.afterReboundingTimeInSecond));
+        shortShotClockButton.setOnClickListener(v -> resetShotClock(MainActivity.afterReboundTimeInSecond));
         longShotClockButton.setOnClickListener(v -> resetShotClock(MainActivity.offenseTimeInSecond));
 
         timeOutButton.setOnClickListener(v -> playStopTimeOutTimer());

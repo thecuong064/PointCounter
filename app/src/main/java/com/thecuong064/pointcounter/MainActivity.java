@@ -27,7 +27,7 @@ public class MainActivity extends BaseActivity {
     public static String TOTAl_TIME_MINUTE_SAVE_KEY = "total_time_minute";
     public static String TOTAl_TIME_SECOND_SAVE_KEY = "total_time_second";
     public static String OFFENSE_TIME_SAVE_KEY = "offense_time";
-    public static String AFTER_REBOUNDING_TIME_SAVE_KEY = "after_rebounding_time";
+    public static String AFTER_REBOUNDING_TIME_SAVE_KEY = "after_rebound_time";
     public static String TIME_OUT_MINUTE_SAVE_KEY = "time_out_minute";
     public static String TIME_OUT_SECOND_SAVE_KEY = "time_out_second";
     public static String SHORT_BREAK_MINUTE_SAVE_KEY = "short_break_minute";
@@ -49,7 +49,7 @@ public class MainActivity extends BaseActivity {
 
     public static int totalTimeMinute;
     public static int totalTimeSecond;
-    public static int afterReboundingTimeInSecond;
+    public static int afterReboundTimeInSecond;
     public static int offenseTimeInSecond;
     public static int timeOutMinute;
     public static int timeOutSecond;
@@ -95,7 +95,7 @@ public class MainActivity extends BaseActivity {
         totalTimeMinute = minuteFromMillis(pref.getLong(TOTAl_TIME_MINUTE_SAVE_KEY, DEFAULT_TOTAL_TIME_MIN));
         totalTimeSecond = secondFromMillis(pref.getLong(TOTAl_TIME_SECOND_SAVE_KEY, DEFAULT_TOTAL_TIME_SEC));
 
-        afterReboundingTimeInSecond = secondFromMillis(pref.getLong(AFTER_REBOUNDING_TIME_SAVE_KEY,
+        afterReboundTimeInSecond = secondFromMillis(pref.getLong(AFTER_REBOUNDING_TIME_SAVE_KEY,
                 DEFAULT_SHORT_SHOT_CLOCK_TIME));
         offenseTimeInSecond = secondFromMillis(pref.getLong(OFFENSE_TIME_SAVE_KEY,
                 DEFAULT_LONG_SHOT_CLOCK_TIME));

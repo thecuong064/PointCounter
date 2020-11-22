@@ -7,6 +7,7 @@
         <attr name="itemContent" format="string" />
         <attr name="itemLineShow" format="boolean" />
         <attr name="itemTitleTextColor" format="color" />
+        <attr name="itemIsSwitchShowed" format="boolean" />
     </declare-styleable>
 
 </resources>

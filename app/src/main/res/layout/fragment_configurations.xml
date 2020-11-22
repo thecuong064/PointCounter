@@ -24,10 +24,10 @@
         app:itemLineShow="true"/>
 
     <com.thecuong064.pointcounter.widget.ConfigurationItemView
-        android:id="@+id/item_after_rebounding_time"
+        android:id="@+id/item_after_rebound_time"
         android:layout_width="match_parent"
         android:layout_height="55dp"
-        app:itemTitle="After-offensive-rebounding time"
+        app:itemTitle="After-offensive-rebound time"
         app:itemLineShow="true"/>
 
     <com.thecuong064.pointcounter.widget.ConfigurationItemView
@@ -49,6 +49,14 @@
         android:layout_width="match_parent"
         android:layout_height="55dp"
         app:itemTitle="Long break"
+        app:itemLineShow="true"/>
+
+    <com.thecuong064.pointcounter.widget.ConfigurationItemView
+        android:id="@+id/item_shot_clock_violation"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        app:itemIsSwitchShowed="true"
+        app:itemTitle="Stop game clock when shot clock expires"
         app:itemLineShow="true"/>
 
     <TextView

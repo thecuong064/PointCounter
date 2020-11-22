@@ -4,4 +4,5 @@
     <color name="colorPrimaryDark">#171332</color>
     <color name="windowBackground">#171332</color>
     <color name="colorAccent">#EE3476</color>
+    <color name="switchCheckedThumb">#FFC107</color>
 </resources>

@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SwitchCompat;
 
 import com.thecuong064.pointcounter.R;
 
@@ -17,6 +18,7 @@ public class ConfigurationItemView extends RelativeLayout {
 
     private TextView mTitleTv, mContentTv;
     private View mLine;
+    private SwitchCompat mContentSwitch;
 
     public ConfigurationItemView(@NonNull Context context) {
         this(context, null);
@@ -32,10 +34,11 @@ public class ConfigurationItemView extends RelativeLayout {
     }
 
     private void initView(AttributeSet attrs) {
-        inflate(getContext(), R.layout.view_item, this);
+        inflate(getContext(), R.layout.configuration_item_view, this);
         mTitleTv = findViewById(R.id.tv_title);
         mContentTv = findViewById(R.id.tv_content);
         mLine = findViewById(R.id.line);
+        mContentSwitch = findViewById(R.id.sw_content);
 
         TypedArray ta = getContext().obtainStyledAttributes(attrs, R.styleable.ConfigurationItemView);
         mTitleTv.setText(ta.getString(R.styleable.ConfigurationItemView_itemTitle));
@@ -51,6 +54,10 @@ public class ConfigurationItemView extends RelativeLayout {
         }
 
         mLine.setVisibility(ta.getBoolean(R.styleable.ConfigurationItemView_itemLineShow, false) ? VISIBLE : GONE);
+
+        mContentSwitch.setVisibility(ta.getBoolean(R.styleable.ConfigurationItemView_itemIsSwitchShowed, false) ? VISIBLE : GONE);
+        mContentTv.setVisibility(ta.getBoolean(R.styleable.ConfigurationItemView_itemIsSwitchShowed, false) ? GONE : VISIBLE);
+
         ta.recycle();
     }
 

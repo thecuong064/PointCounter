@@ -17,6 +17,21 @@
         android:textSize="12sp"
         tools:text="title" />
 
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/sw_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="15dp"
+        android:layout_centerInParent="true"
+        android:layout_toEndOf="@id/tv_title"
+        android:layout_alignBaseline="@id/tv_title"
+        android:gravity="end"
+        android:checked="true"
+        tools:visibility="gone"
+        style="@style/CustomSwitch"/>
+
     <TextView
         android:id="@+id/tv_content"
         android:layout_width="wrap_content"
@@ -32,7 +47,7 @@
         android:textSize="14sp"
         android:maxLines="1"
         android:ellipsize="end"
-        tools:text="content" />
+        tools:text="content"/>
 
     <View
         android:id="@+id/line"
