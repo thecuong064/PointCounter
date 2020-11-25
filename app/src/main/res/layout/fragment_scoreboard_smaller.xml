@@ -269,7 +269,7 @@
                         android:layout_height="match_parent"/>
 
                     <TextView
-                        android:id="@+id/btn_stop"
+                        android:id="@+id/btn_reset_timers"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"

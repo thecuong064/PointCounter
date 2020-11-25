@@ -1,12 +1,13 @@
 package com.thecuong064.pointcounter;
 
+import android.media.MediaPlayer;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.thecuong064.pointcounter.base.BaseFragment;
 import com.thecuong064.pointcounter.dialog.CustomAlertDialog;
-import com.thecuong064.pointcounter.listener.DoubleClickListener;
+import com.thecuong064.pointcounter.listener.OnClickListenerWithSound;
 import com.thecuong064.pointcounter.listener.TimerListener;
 import com.thecuong064.pointcounter.timer.MyCountDownTimer;
 
@@ -46,7 +47,7 @@ public class ScoreboardFragment extends BaseFragment {
     @BindView(R.id.tv_shot_clock_time) TextView shotClockTimeTextView;
 
     @BindView(R.id.btn_play_pause) TextView playPauseButton;
-    @BindView(R.id.btn_stop) TextView stopButton;
+    @BindView(R.id.btn_reset_timers) TextView resetTimersButton;
     @BindView(R.id.shot_clock_short) TextView shortShotClockButton;
     @BindView(R.id.shot_clock_long) TextView longShotClockButton;
     @BindView(R.id.btn_time_out) TextView timeOutButton;
@@ -73,6 +74,8 @@ public class ScoreboardFragment extends BaseFragment {
     MyCountDownTimer totalCountDownTimer, shotClockCountDownTimer, timeOutCountDownTimer;
     MyCountDownTimer shortBreakCountDownTimer, longBreakCountDownTimer;
 
+    MediaPlayer shotClockViolationSound;
+
     @Override
     protected int getContentViewId() {
         return R.layout.fragment_scoreboard_smaller;
@@ -84,6 +87,8 @@ public class ScoreboardFragment extends BaseFragment {
         awayPointValue = 0;
         homeFoulCount = 0;
         awayFoulCount = 0;
+
+        shotClockViolationSound = MediaPlayer.create(getContext(),R.raw.shot_clock_violation_buzzer);
 
         initTimersView();
         initView();
@@ -118,6 +123,7 @@ public class ScoreboardFragment extends BaseFragment {
             @Override
             public void onFinish() {
                 shotClockTimeTextView.setText("0.0");
+                shotClockViolationSound.start();
                 if (MainActivity.isGameClockStoppedWhenShotClockExpires) {
                     pauseTotalTimer();
                 }
@@ -253,43 +259,94 @@ public class ScoreboardFragment extends BaseFragment {
 
     private void initViewOnClick() {
 
-        homePointDecButton.setOnClickListener(v -> pointButtonOnClick(v));
-
-        homePointIncButton.setOnClickListener(v -> pointButtonOnClick(v));
-
-        awayPointDecButton.setOnClickListener(v -> pointButtonOnClick(v));
-
-        awayPointIncButton.setOnClickListener(v -> pointButtonOnClick(v));
-
-        homeNameTextView.setOnClickListener(v -> openDialogEditTeamName(HOME_NAME));
-
-        awayNameTextView.setOnClickListener(v -> openDialogEditTeamName(AWAY_NAME));
-
-        homeFoulsView.setOnClickListener(v -> homeFoulCountChanged());
-
-        awayFoulsView.setOnClickListener(v -> awayFoulCountChanged());
-
-        playPauseButton.setOnClickListener(v -> playPauseTotalTimer());
-
-        totalTimeTextView.setOnClickListener(new DoubleClickListener() {
+        homePointDecButton.setOnClickListener(new OnClickListenerWithSound() {
             @Override
-            public void onDoubleClick() {
-                //initTotalTimer();
+            public void onClickWithSound(View v) {
+                pointButtonOnClick(v);
             }
         });
 
-        //shotClockTimeTextView.setOnClickListener(v -> playPauseShotClockTimer());
+        homePointIncButton.setOnClickListener(new OnClickListenerWithSound() {
+            @Override
+            public void onClickWithSound(View v) {
+                pointButtonOnClick(v);
+            }
+        });
 
-        stopButton.setOnClickListener(v -> showTimerResetConfirmationDialog());
+        awayPointDecButton.setOnClickListener(new OnClickListenerWithSound() {
+            @Override
+            public void onClickWithSound(View v) {
+                pointButtonOnClick(v);
+            }
+        });
 
-        shortShotClockButton.setOnClickListener(v -> resetShotClock(MainActivity.afterReboundTimeInSecond));
-        longShotClockButton.setOnClickListener(v -> resetShotClock(MainActivity.offenseTimeInSecond));
+        awayPointIncButton.setOnClickListener(new OnClickListenerWithSound() {
+            @Override
+            public void onClickWithSound(View v) {
+                pointButtonOnClick(v);
+            }
+        });
 
-        timeOutButton.setOnClickListener(v -> playStopTimeOutTimer());
+        homeFoulsView.setOnClickListener(new OnClickListenerWithSound() {
+            @Override
+            public void onClickWithSound(View v) {
+                homeFoulCountChanged();
+            }
+        });
+
+        awayFoulsView.setOnClickListener(new OnClickListenerWithSound() {
+            @Override
+            public void onClickWithSound(View v) {
+                awayFoulCountChanged();
+            }
+        });
+
+        playPauseButton.setOnClickListener(new OnClickListenerWithSound() {
+            @Override
+            public void onClickWithSound(View v) {
+                playPauseTotalTimer();
+            }
+        });
+
+        shortShotClockButton.setOnClickListener(new OnClickListenerWithSound() {
+            @Override
+            public void onClickWithSound(View v) {
+                resetShotClock(MainActivity.afterReboundTimeInSecond);
+            }
+        });
+
+        longShotClockButton.setOnClickListener(new OnClickListenerWithSound() {
+            @Override
+            public void onClickWithSound(View v) {
+                resetShotClock(MainActivity.offenseTimeInSecond);
+            }
+        });
+
+        timeOutButton.setOnClickListener(new OnClickListenerWithSound() {
+            @Override
+            public void onClickWithSound(View v) {
+                playStopTimeOutTimer();
+            }
+        });
+
+        shortBreakButton.setOnClickListener(new OnClickListenerWithSound() {
+            @Override
+            public void onClickWithSound(View v) {
+                playStopShortBreakTimer();
+            }
+        });
+
+        longBreakButton.setOnClickListener(new OnClickListenerWithSound() {
+            @Override
+            public void onClickWithSound(View v) {
+                playStopLongBreakTimer();
+            }
+        });
+
+        homeNameTextView.setOnClickListener(v -> openDialogEditTeamName(HOME_NAME));
+        awayNameTextView.setOnClickListener(v -> openDialogEditTeamName(AWAY_NAME));
+        resetTimersButton.setOnClickListener(v -> showTimerResetConfirmationDialog());
         resetPointsButton.setOnClickListener(v -> showPointsResetConfirmationDialog());
-
-        shortBreakButton.setOnClickListener(v -> playStopShortBreakTimer());
-        longBreakButton.setOnClickListener(v -> playStopLongBreakTimer());
     }
 
     private void showTimerResetConfirmationDialog() {
@@ -485,7 +542,7 @@ public class ScoreboardFragment extends BaseFragment {
         homeFoulsView.setEnabled(false);
         awayFoulsView.setEnabled(false);
         playPauseButton.setEnabled(false);
-        stopButton.setEnabled(false);
+        resetTimersButton.setEnabled(false);
         shortShotClockButton.setEnabled(false);
         longShotClockButton.setEnabled(false);
         resetPointsButton.setEnabled(false);
@@ -503,7 +560,7 @@ public class ScoreboardFragment extends BaseFragment {
         homeFoulsView.setEnabled(true);
         awayFoulsView.setEnabled(true);
         playPauseButton.setEnabled(true);
-        stopButton.setEnabled(true);
+        resetTimersButton.setEnabled(true);
         shortShotClockButton.setEnabled(true);
         longShotClockButton.setEnabled(true);
         resetPointsButton.setEnabled(true);
@@ -541,7 +598,6 @@ public class ScoreboardFragment extends BaseFragment {
     }
 
     private void updatePoints() {
-
         // --------------------HOME--------------
         homePointTextView.setText(homePointValue + "");
         homePointDecButton.setEnabled(homePointValue > 0);
@@ -609,5 +665,4 @@ public class ScoreboardFragment extends BaseFragment {
         pauseTotalTimer();
         pauseShotClock();
     }
-
 }
