@@ -180,7 +180,6 @@ public class ConfigurationsFragment extends BaseFragment {
         CustomNumberPicker minutePicker = pickerLayout.findViewById(R.id.picker_minute);
         minutePicker.setMaxValue(minuteMax);
         minutePicker.setMinValue(minuteMin);
-        minutePicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         minutePicker.setFormatter(i -> String.format("%02d", i));
         minutePicker.setValue(currentMin);
 
@@ -191,7 +190,6 @@ public class ConfigurationsFragment extends BaseFragment {
         CustomNumberPicker secondPicker = pickerLayout.findViewById(R.id.picker_second);
         secondPicker.setMaxValue(secondMax);
         secondPicker.setMinValue(secondMin);
-        secondPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         secondPicker.setFormatter(i -> String.format("%02d", i));
         secondPicker.setValue(currentSecond);
 

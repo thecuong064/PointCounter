@@ -34,6 +34,7 @@ public class CustomNumberPicker extends NumberPicker {
         if(view instanceof EditText){
             ((EditText) view).setTextSize(20);
         }
+        setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
     }
 
     @Override
