@@ -343,6 +343,13 @@ public class ScoreboardFragment extends BaseFragment {
             }
         });
 
+        shotClockTimeTextView.setOnClickListener(new OnClickListenerWithSound() {
+            @Override
+            public void onClickWithSound(View v) {
+                playPauseShotClockTimer();
+            }
+        });
+
         homeNameTextView.setOnClickListener(v -> openDialogEditTeamName(HOME_NAME));
         awayNameTextView.setOnClickListener(v -> openDialogEditTeamName(AWAY_NAME));
         resetTimersButton.setOnClickListener(v -> showTimerResetConfirmationDialog());
@@ -385,7 +392,6 @@ public class ScoreboardFragment extends BaseFragment {
 
     private void playPauseShotClockTimer() {
         if (SHOT_CLOCK_STATE.equals(PLAY_STATE)) {
-            pauseTotalTimer();
             pauseShotClock();
         } else {
             playTotalTimer();
@@ -535,6 +541,8 @@ public class ScoreboardFragment extends BaseFragment {
 
     private void disableScoreboardLayout() {
         shotClockTimeTextView.setActivated(true);
+        shotClockTimeTextView.setEnabled(false);
+        totalTimeTextView.setEnabled(false);
         homePointIncButton.setEnabled(false);
         homePointDecButton.setEnabled(false);
         awayPointIncButton.setEnabled(false);
@@ -553,6 +561,8 @@ public class ScoreboardFragment extends BaseFragment {
 
     private void enableScoreboardLayout() {
         shotClockTimeTextView.setActivated(false);
+        shotClockTimeTextView.setEnabled(true);
+        totalTimeTextView.setEnabled(true);
         homePointIncButton.setEnabled(true);
         homePointDecButton.setEnabled(true);
         awayPointIncButton.setEnabled(true);

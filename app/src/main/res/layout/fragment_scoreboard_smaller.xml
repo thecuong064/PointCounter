@@ -42,7 +42,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
@@ -141,7 +141,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
@@ -225,17 +225,16 @@
             android:id="@+id/tv_total_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="00 : 00"
-            android:textColor="#fff"
-            android:textSize="30sp" />
+            tools:text="00 : 00"
+            style="@style/GameClockTextView" />
 
         <TextView
             android:id="@+id/tv_shot_clock_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            style="@style/ShotClockTextView"
-            tools:text="24"/>
+            tools:text="24"
+            style="@style/ShotClockTextView" />
 
         <LinearLayout
             android:layout_width="match_parent"
