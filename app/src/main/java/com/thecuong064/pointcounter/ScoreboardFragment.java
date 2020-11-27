@@ -60,6 +60,7 @@ public class ScoreboardFragment extends BaseFragment {
     private final String PLAY_STATE = "PLAY";
     private final String PAUSE_STATE = "PAUSE";
     private String SHOT_CLOCK_STATE = PAUSE_STATE;
+    private String GAME_CLOCK_STATE = PAUSE_STATE;
     private String TIME_OUT_STATE = PAUSE_STATE;
     private String SHORT_BREAK_STATE = PAUSE_STATE;
     private String LONG_BREAK_STATE = PAUSE_STATE;
@@ -125,7 +126,7 @@ public class ScoreboardFragment extends BaseFragment {
                 shotClockTimeTextView.setText("0.0");
                 shotClockViolationSound.start();
                 if (MainActivity.isGameClockStoppedWhenShotClockExpires) {
-                    pauseTotalTimer();
+                    pauseGameClock();
                 }
                 initShotClockTimer(MainActivity.offenseTimeInSecond);
             }
@@ -304,7 +305,7 @@ public class ScoreboardFragment extends BaseFragment {
         playPauseButton.setOnClickListener(new OnClickListenerWithSound() {
             @Override
             public void onClickWithSound(View v) {
-                playPauseTotalTimer();
+                playPauseAllTimers();
             }
         });
 
@@ -347,6 +348,13 @@ public class ScoreboardFragment extends BaseFragment {
             @Override
             public void onClickWithSound(View v) {
                 playPauseShotClockTimer();
+            }
+        });
+
+        totalTimeTextView.setOnClickListener(new OnClickListenerWithSound() {
+            @Override
+            public void onClickWithSound(View v) {
+                playPauseGameClockTimer();
             }
         });
 
@@ -394,50 +402,64 @@ public class ScoreboardFragment extends BaseFragment {
         if (SHOT_CLOCK_STATE.equals(PLAY_STATE)) {
             pauseShotClock();
         } else {
-            playTotalTimer();
+            playGameClock();
             playShotClock();
         }
     }
 
     private void playShotClock() {
-        shotClockCountDownTimer.play();
-        SHOT_CLOCK_STATE = PLAY_STATE;
+        if (shotClockCountDownTimer != null) {
+            shotClockCountDownTimer.play();
+            SHOT_CLOCK_STATE = PLAY_STATE;
+        }
     }
 
     private void pauseShotClock() {
-        shotClockCountDownTimer.pause();
-        SHOT_CLOCK_STATE = PAUSE_STATE;
+        if (shotClockCountDownTimer != null) {
+            shotClockCountDownTimer.pause();
+            SHOT_CLOCK_STATE = PAUSE_STATE;
+        }
     }
 
-    private void playPauseTotalTimer() {
+    private void playPauseAllTimers() {
         // TODO: change the state to enum
         if (playPauseButton.getText().toString().equals(PLAY_STATE)) {
-            playTotalTimer();
+            playGameClock();
             playShotClock();
+            playPauseButton.setText(PAUSE_STATE);
         } else {
-            pauseTotalTimer();
+            pauseGameClock();
             pauseShotClock();
+            playPauseButton.setText(PLAY_STATE);
         }
     }
 
-    private void playTotalTimer() {
+    private void playPauseGameClockTimer() {
+        if (GAME_CLOCK_STATE.equals(PLAY_STATE)) {
+            pauseGameClock();
+        } else {
+            playGameClock();
+        }
+    }
+
+    private void playGameClock() {
         if (totalCountDownTimer != null) {
             totalCountDownTimer.play();
-            playPauseButton.setText(PAUSE_STATE);
+            GAME_CLOCK_STATE = PLAY_STATE;
         }
     }
 
-    private void pauseTotalTimer() {
+    private void pauseGameClock() {
         if (totalCountDownTimer != null) {
             totalCountDownTimer.pause();
-            playPauseButton.setText(PLAY_STATE);
+            GAME_CLOCK_STATE = PAUSE_STATE;
         }
     }
     
     private void playStopTimeOutTimer() {
         // TODO: change the state to enum
         if (TIME_OUT_STATE.equals(PAUSE_STATE)) {
-            pauseTotalTimer();
+            pauseGameClock();
             stopShotClockTimer();
             playTimeOutTimer();
             disableScoreboardLayout();
@@ -494,7 +516,7 @@ public class ScoreboardFragment extends BaseFragment {
     private void playStopShortBreakTimer() {
         // TODO: change the state to enum
         if (SHORT_BREAK_STATE.equals(PAUSE_STATE)) {
-            pauseTotalTimer();
+            pauseGameClock();
             stopShotClockTimer();
             playShortBreakTimer();
             disableScoreboardLayout();
@@ -525,7 +547,7 @@ public class ScoreboardFragment extends BaseFragment {
     private void playStopLongBreakTimer() {
         // TODO: change the state to enum
         if (LONG_BREAK_STATE.equals(PAUSE_STATE)) {
-            pauseTotalTimer();
+            pauseGameClock();
             stopShotClockTimer();
             playLongBreakTimer();
             disableScoreboardLayout();
@@ -672,7 +694,7 @@ public class ScoreboardFragment extends BaseFragment {
     }
 
     public void pauseAllTimers() {
-        pauseTotalTimer();
+        pauseGameClock();
         pauseShotClock();
     }
 }
