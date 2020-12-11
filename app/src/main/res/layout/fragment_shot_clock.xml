@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_weight="1"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="#120F2C"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal">
+
+    <TextView
+        android:id="@+id/tv_shot_clock_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/view_buttons"
+        android:layout_marginBottom="80dp"
+        style="@style/ShotClockTextView"
+        android:textSize="100sp"
+        tools:text="24" />
+
+    <LinearLayout
+        android:id="@+id/view_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="25dp"
+        android:padding="10dp"
+        android:orientation="horizontal"
+        android:background="@drawable/bg_stroke_555450_05px">
+
+        <TextView
+            android:id="@+id/btn_play_pause"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:text="PLAY"
+            style="@style/AnimatedButton.ScoreboardTimer"
+            android:textSize="36sp"/>
+
+        <Space
+            android:layout_width="20dp"
+            android:layout_height="match_parent" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/shot_clock_short"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                style="@style/AnimatedButton.ScoreboardTimer"
+                android:textSize="36sp"
+                tools:text="14"/>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp" />
+
+            <TextView
+                android:id="@+id/shot_clock_long"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                style="@style/AnimatedButton.ScoreboardTimer"
+                android:textSize="36sp"
+                tools:text="24"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

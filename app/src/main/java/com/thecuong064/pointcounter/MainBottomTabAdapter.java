@@ -28,6 +28,9 @@ public class MainBottomTabAdapter extends FragmentPagerAdapter {
                 case MainActivity.SCOREBOARD_TAB_INDEX:
                     fragment = new ScoreboardFragment();
                     break;
+                case MainActivity.SHOT_CLOCK_TAB_INDEX:
+                    fragment = new ShotClockFragment();
+                    break;
                 case MainActivity.CONFIGURATIONS_TAB_INDEX:
                     fragment = new ConfigurationsFragment();
                     break;
@@ -41,6 +44,6 @@ public class MainBottomTabAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 2;
+        return 3;
     }
 }

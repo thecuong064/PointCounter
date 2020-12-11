@@ -27,6 +27,26 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/tab_shot_clock"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:background="@drawable/bottom_tab_bg_color">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Shot Clock"
+            android:textColor="@drawable/bottom_tab_tv_color"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/tab_configurations"
         android:layout_width="0dp"
         android:layout_height="match_parent"

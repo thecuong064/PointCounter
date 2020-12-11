@@ -18,7 +18,7 @@ import butterknife.BindViews;
 
 public class MainActivity extends BaseActivity {
 
-    @BindViews({R.id.tab_scoreboard, R.id.tab_configurations})
+    @BindViews({R.id.tab_scoreboard, R.id.tab_shot_clock, R.id.tab_configurations})
     public View[] mTabs;
     @BindView(R.id.viewPager)
     public ViewPager viewPager;
@@ -63,11 +63,13 @@ public class MainActivity extends BaseActivity {
     public static boolean isGameClockStoppedWhenShotClockExpires;
 
     public static final int SCOREBOARD_TAB_INDEX = 0;
-    public static final int CONFIGURATIONS_TAB_INDEX = 1;
+    public static final int SHOT_CLOCK_TAB_INDEX = 1;
+    public static final int CONFIGURATIONS_TAB_INDEX = 2;
 
     private int mCurTabPos = -1;
     private ScoreboardFragment scoreboardFragment;
     private ConfigurationsFragment configurationsFragment;
+    private ShotClockFragment shotClockFragment;
     private SparseArray<WeakReference<Fragment>> fragmentList;
 
     @Override
@@ -91,6 +93,7 @@ public class MainActivity extends BaseActivity {
         editor.apply();
         getConfigurations();
         scoreboardFragment.stopAndResetTimers();
+        shotClockFragment.stopAndResetTimers();
     }
 
     public void setConfiguration(boolean newValue, String save_key) {
@@ -100,6 +103,7 @@ public class MainActivity extends BaseActivity {
         editor.apply();
         getConfigurations();
         scoreboardFragment.stopAndResetTimers();
+        shotClockFragment.stopAndResetTimers();
     }
 
     public void getConfigurations() {
@@ -136,14 +140,17 @@ public class MainActivity extends BaseActivity {
         fragmentList = new SparseArray<>();
         scoreboardFragment = new ScoreboardFragment();
         configurationsFragment = new ConfigurationsFragment();
+        shotClockFragment = new ShotClockFragment();
+
         fragmentList.put(SCOREBOARD_TAB_INDEX, new WeakReference<>(scoreboardFragment));
+        fragmentList.put(SHOT_CLOCK_TAB_INDEX, new WeakReference<>(shotClockFragment));
         fragmentList.put(CONFIGURATIONS_TAB_INDEX, new WeakReference<>(configurationsFragment));
 
         viewPager.setAdapter(new MainBottomTabAdapter(getSupportFragmentManager(),
                 FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, fragmentList));
 
-        viewPager.setOffscreenPageLimit(2);
-        for (int i = 0; i < 2; i++) {
+        viewPager.setOffscreenPageLimit(3);
+        for (int i = 0; i < 3; i++) {
             final int index = i;
             mTabs[i].setOnClickListener(v -> {
                 changeTab(index);
