@@ -48,8 +48,6 @@ public class ScoreboardFragment extends BaseFragment {
 
     @BindView(R.id.btn_play_pause) TextView playPauseButton;
     @BindView(R.id.btn_reset_timers) TextView resetTimersButton;
-    @BindView(R.id.shot_clock_short) TextView shortShotClockButton;
-    @BindView(R.id.shot_clock_long) TextView longShotClockButton;
     @BindView(R.id.btn_time_out) TextView timeOutButton;
     @BindView(R.id.btn_reset_points) TextView resetPointsButton;
     @BindView(R.id.btn_short_break) TextView shortBreakButton;
@@ -79,7 +77,7 @@ public class ScoreboardFragment extends BaseFragment {
 
     @Override
     protected int getContentViewId() {
-        return R.layout.fragment_scoreboard_smaller;
+        return R.layout.fragment_scoreboard_smaller_v2;
     }
 
     @Override
@@ -98,8 +96,8 @@ public class ScoreboardFragment extends BaseFragment {
     }
 
     public void initTimersView() {
-        shortShotClockButton.setText(MainActivity.afterReboundTimeInSecond + "");
-        longShotClockButton.setText(MainActivity.offenseTimeInSecond + "");
+        //shortShotClockButton.setText(MainActivity.afterReboundTimeInSecond + "");
+        //longShotClockButton.setText(MainActivity.offenseTimeInSecond + "");
         initTotalTimer();
         initShotClockTimer(MainActivity.offenseTimeInSecond);
         initTimeOutTimer();
@@ -109,6 +107,8 @@ public class ScoreboardFragment extends BaseFragment {
     }
 
     private void initShotClockTimer(int timeInSeconds) {
+        shotClockTimeTextView.setText("");
+        if (true) return;
         stopShotClockTimer();
         SHOT_CLOCK_STATE = PAUSE_STATE;
         shotClockMillis = MainActivity.millisFromSecond(timeInSeconds);
@@ -309,19 +309,19 @@ public class ScoreboardFragment extends BaseFragment {
             }
         });
 
-        shortShotClockButton.setOnClickListener(new OnClickListenerWithSound() {
-            @Override
-            public void onClickWithSound(View v) {
-                resetShotClock(MainActivity.afterReboundTimeInSecond);
-            }
-        });
-
-        longShotClockButton.setOnClickListener(new OnClickListenerWithSound() {
-            @Override
-            public void onClickWithSound(View v) {
-                resetShotClock(MainActivity.offenseTimeInSecond);
-            }
-        });
+//        shortShotClockButton.setOnClickListener(new OnClickListenerWithSound() {
+//            @Override
+//            public void onClickWithSound(View v) {
+//                resetShotClock(MainActivity.afterReboundTimeInSecond);
+//            }
+//        });
+//
+//        longShotClockButton.setOnClickListener(new OnClickListenerWithSound() {
+//            @Override
+//            public void onClickWithSound(View v) {
+//                resetShotClock(MainActivity.offenseTimeInSecond);
+//            }
+//        });
 
         timeOutButton.setOnClickListener(new OnClickListenerWithSound() {
             @Override
@@ -573,8 +573,8 @@ public class ScoreboardFragment extends BaseFragment {
         awayFoulsView.setEnabled(false);
         playPauseButton.setEnabled(false);
         resetTimersButton.setEnabled(false);
-        shortShotClockButton.setEnabled(false);
-        longShotClockButton.setEnabled(false);
+//        shortShotClockButton.setEnabled(false);
+//        longShotClockButton.setEnabled(false);
         resetPointsButton.setEnabled(false);
         timeOutButton.setEnabled(TIME_OUT_STATE.equals(PLAY_STATE));
         shortBreakButton.setEnabled(SHORT_BREAK_STATE.equals(PLAY_STATE));
@@ -593,12 +593,14 @@ public class ScoreboardFragment extends BaseFragment {
         awayFoulsView.setEnabled(true);
         playPauseButton.setEnabled(true);
         resetTimersButton.setEnabled(true);
-        shortShotClockButton.setEnabled(true);
-        longShotClockButton.setEnabled(true);
+//        shortShotClockButton.setEnabled(true);
+//        longShotClockButton.setEnabled(true);
         resetPointsButton.setEnabled(true);
         timeOutButton.setEnabled(true);
         shortBreakButton.setEnabled(true);
         longBreakButton.setEnabled(true);
+
+        updatePoints();
     }
 
     public void stopAndResetTimers() {
