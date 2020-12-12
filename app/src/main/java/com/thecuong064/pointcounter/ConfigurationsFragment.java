@@ -283,6 +283,8 @@ public class ConfigurationsFragment extends BaseFragment {
                 || timeOutSecond != MainActivity.timeOutSecond
                 || shortBreakMinute != MainActivity.shortBreakMinute
                 || shortBreakSecond != MainActivity.shortBreakSecond
+                || longBreakMinute != MainActivity.longBreakMinute
+                || longBreakSecond != MainActivity.longBreakSecond
                 || isGameClockStoppedWhenShotClockExpires != MainActivity.isGameClockStoppedWhenShotClockExpires);
     }
 
@@ -292,6 +294,7 @@ public class ConfigurationsFragment extends BaseFragment {
         afterReboundTimeItem.setContent(afterReboundTimeInSecond + " secs");
         timeOutItem.setContent(timeOutMinute + " mins " + timeOutSecond + " secs");
         shortBreakItem.setContent(shortBreakMinute + " mins " + shortBreakSecond + " secs");
+        longBreakItem.setContent(longBreakMinute + " mins " + longBreakSecond + " secs");
         shotClockViolationItem.setSwitchState(isGameClockStoppedWhenShotClockExpires);
     }
 
