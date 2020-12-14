@@ -63,6 +63,7 @@ public class ShotClockFragment extends BaseFragment {
             public void onFinish() {
                 shotClockTimeTextView.setText("0.0");
                 shotClockViolationSound.start();
+                playPauseButton.setText(PLAY_STATE);
                 initShotClockTimer(MainActivity.offenseTimeInSecond);
             }
         });
@@ -164,6 +165,7 @@ public class ShotClockFragment extends BaseFragment {
     private void stopShotClockTimer() {
         if (shotClockCountDownTimer != null) {
             shotClockCountDownTimer.stop();
+            shotClockTimeTextView.setActivated(false);
         }
     }
 
